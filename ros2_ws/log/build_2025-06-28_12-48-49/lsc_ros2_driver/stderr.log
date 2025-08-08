@@ -1,0 +1,4 @@
+[01m[K/home/chumbi/ros2_ws/src/lsc_ros2_driver/src/parser.cpp:[m[K In member function ‘[01m[Kvirtual int AsciiParser::[01;32m[KparsingMsg[m[K(std::vector<unsigned char>, std::shared_ptr<Lsc_t>)[m[K’:
+[01m[K/home/chumbi/ros2_ws/src/lsc_ros2_driver/src/parser.cpp:245:38:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::vector<char*>::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+  245 |                     for(int i = 0; [01;35m[Ki < field.size()[m[K; i++)
+      |                                    [01;35m[K~~^~~~~~~~~~~~~~[m[K

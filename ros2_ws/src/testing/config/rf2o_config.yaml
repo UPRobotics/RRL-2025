@@ -1,0 +1,18 @@
+rf2o_laser_odometry_node:
+  ros__parameters:
+    # Topics
+    laser_scan_topic: "/scan"
+    odom_topic: "/odom_rf2o"
+    
+    # Frame IDs
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    
+    # Publishing
+    publish_tf: true
+    
+    # Frequency
+    freq: 10.0
+    
+    # Initial pose topic (optional)
+    init_pose_from_topic: ""

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot name="robot_with_lsc_lidar" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <!-- Include the LSC LiDAR URDF -->
+    <xacro:include filename="$(find lsc_ros2_driver)/urdf/lsc_ros2_driver.urdf.xacro"/>
+    
+    <!-- Robot chassis base link -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.2 0.1"/> <!-- 10 cm x 20 cm x 10 cm -->
+            </geometry>
+            <origin xyz="0 0 0.05"/> <!-- Center of the box (z=5 cm, half of height) -->
+            <material name="blue">
+                <color rgba="0 0 1 0.5"/> <!-- Blue, semi-transparent -->
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.2 0.1"/>
+            </geometry>
+            <origin xyz="0 0 0.05"/>
+        </collision>
+    </link>
+
+    <!-- Connect robot base to LiDAR mount -->
+    <joint name="base_to_lsc_mount" type="fixed">
+        <parent link="base_link"/>
+        <child link="lsc_mount"/>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/> <!-- LiDAR mount 10cm above chassis -->
+    </joint>
+
+</robot>

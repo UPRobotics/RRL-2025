@@ -1,0 +1,23 @@
+[0.470s] Invoking command in '/home/chumbi/ros2_ws/src/testing': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/testing build --build-base /home/chumbi/ros2_ws/build/testing/build install --record /home/chumbi/ros2_ws/build/testing/install.log --single-version-externally-managed install_data
+[0.625s] running egg_info
+[0.635s] writing ../../build/testing/testing.egg-info/PKG-INFO
+[0.635s] writing dependency_links to ../../build/testing/testing.egg-info/dependency_links.txt
+[0.636s] writing entry points to ../../build/testing/testing.egg-info/entry_points.txt
+[0.636s] writing requirements to ../../build/testing/testing.egg-info/requires.txt
+[0.636s] writing top-level names to ../../build/testing/testing.egg-info/top_level.txt
+[0.658s] reading manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+[0.658s] adding license file 'LICENSE'
+[0.658s] writing manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+[0.658s] running build
+[0.658s] running build_py
+[0.658s] running install
+[0.662s] running install_lib
+[0.673s] running install_data
+[0.673s] copying launch/oak_d_s2.launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[0.673s] running install_egg_info
+[0.685s] removing '/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing-0.0.0-py3.12.egg-info' (and everything under it)
+[0.685s] Copying ../../build/testing/testing.egg-info to /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing-0.0.0-py3.12.egg-info
+[0.685s] running install_scripts
+[0.760s] Installing camara script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[0.760s] writing list of installed files to '/home/chumbi/ros2_ws/build/testing/install.log'
+[0.779s] Invoked command in '/home/chumbi/ros2_ws/src/testing' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/testing build --build-base /home/chumbi/ros2_ws/build/testing/build install --record /home/chumbi/ros2_ws/build/testing/install.log --single-version-externally-managed install_data

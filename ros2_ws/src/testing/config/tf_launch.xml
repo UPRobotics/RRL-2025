@@ -1,0 +1,2 @@
+<node pkg="tf2_ros" exec="static_transform_publisher" name="laser_to_lsc_mount"
+      args="0 0 0 0 0 0 laser lsc_mount" />

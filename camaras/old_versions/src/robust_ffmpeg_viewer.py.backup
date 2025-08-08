@@ -1,0 +1,1498 @@
+#!/usr/bin/env python3
+"""
+Robust FFmpeg Ultra-Low Latency Camera Viewer
+Optimized for stability with 4 cameras, then performance
+"""
+
+import ffmpeg
+import cv2
+import threading
+import queue
+import time
+import numpy as np
+import subprocess
+import logging
+import os
+import sys
+import configparser
+import select
+import errno
+import math
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+class RobustFfmpegCamera:
+    """Robust FFmpeg camera with improve        logger.info("=== Controls ===")
+        logger.info("ESC or 'q' - Quit")
+        logger.info("'s' - Show statistics")
+        logger.info("'h' - Show health status")
+        logger.info("'P' - Restart all cameras")
+        logger.info("SPACE - Toggle Grid/Fullscreen view")
+        logger.info("LEFT/RIGHT arrows - Switch camera in fullscreen")
+        logger.info("'R' - Rotate current camera 90° clockwise (fullscreen only)")
+        logger.info("==================")handling"""
+    
+    def __init__(self, camera_id: str, rtsp_url: str, target_size: tuple = (640, 360)):
+        self.camera_id = camera_id
+        self.rtsp_url = rtsp_url
+        self.target_size = target_size
+        
+        # Threading
+        self.running = False
+        self.thread = None
+        self.process = None
+        
+        # Frame queue with minimal buffer for ultra-low latency
+        self.frame_queue = queue.Queue(maxsize=1)
+        
+        # Last frame caching to prevent flickering
+        self.last_frame = None
+        self.last_frame_lock = threading.Lock()
+        
+        # Statistics
+        self.fps_counter = 0
+        self.fps = 0
+        self.last_fps_time = time.time()
+        self.total_frames = 0
+        self.dropped_frames = 0
+        self.last_frame_time = time.time()
+        self.connection_attempts = 0
+        self.successful_connections = 0
+        
+        # Frame buffer size calculation
+        self.frame_buffer_size = self.target_size[0] * self.target_size[1] * 3  # RGB
+        
+        logger.info(f"RobustFfmpegCamera {self.camera_id} initialized")
+        
+    def start(self):
+        """Start the camera stream"""
+        if self.thread and self.thread.is_alive():
+            logger.warning(f"Camera {self.camera_id} already running")
+            return
+            
+        self.running = True
+        self.thread = threading.Thread(target=self._stream_loop, daemon=True)
+        self.thread.start()
+        logger.info(f"Camera {self.camera_id} started")
+        
+    def stop(self):
+        """Stop the camera stream"""
+        self.running = False
+        
+        if self.process:
+            try:
+                self.process.terminate()
+                self.process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                self.process.kill()
+                self.process.wait()
+            except Exception as e:
+                logger.warning(f"Camera {self.camera_id} process cleanup error: {e}")
+                
+        if self.thread:
+            self.thread.join(timeout=5)
+            
+        logger.info(f"Camera {self.camera_id} stopped - {self.total_frames} frames, {self.dropped_frames} dropped, {self.successful_connections}/{self.connection_attempts} successful connections")
+        
+    def _stream_loop(self):
+        """Main streaming loop with robust error handling"""
+        consecutive_failures = 0
+        max_failures = 5  # Increased for better reconnection attempts
+        
+        while self.running:
+            try:
+                self.connection_attempts += 1
+                
+                if consecutive_failures > 0:
+                    # Progressive backoff with shorter initial delays
+                    delay = min(consecutive_failures * 2, 10)  # Faster reconnection
+                    logger.info(f"Camera {self.camera_id} reconnecting in {delay}s (failure {consecutive_failures})")
+                    time.sleep(delay)
+                
+                # Clean up any previous process
+                if self.process:
+                    try:
+                        self.process.terminate()
+                        self.process.wait(timeout=2)
+                    except:
+                        try:
+                            self.process.kill()
+                        except:
+                            pass
+                    self.process = None
+                
+                # Create FFmpeg process with conservative settings
+                logger.info(f"Camera {self.camera_id} starting FFmpeg process...")
+                
+                # Build FFmpeg command with ultra-low latency parameters
+                input_args = {
+                    'rtsp_transport': 'tcp',
+                    'fflags': 'nobuffer+fastseek+flush_packets',
+                    'flags': 'low_delay',
+                    'probesize': 32768,  # 32KB - minimal probing for fastest startup
+                    'analyzeduration': 100000,  # 0.1 seconds - minimal analysis
+                    'max_delay': 0,  # No buffering delay
+                    'buffer_size': 64000  # Small buffer for immediate processing
+                }
+                
+                # Create the FFmpeg process with ultra-low latency settings
+                process = (
+                    ffmpeg
+                    .input(self.rtsp_url, **input_args)
+                    .video
+                    .filter('scale', self.target_size[0], self.target_size[1], flags='fast_bilinear')
+                    .output(
+                        'pipe:',
+                        format='rawvideo',
+                        pix_fmt='rgb24',
+                        fps_mode='passthrough',
+                        loglevel='error'  # Minimal logging for performance
+                    )
+                    .run_async(
+                        pipe_stdout=True, 
+                        pipe_stderr=subprocess.PIPE,
+                        quiet=True
+                    )
+                )
+                
+                self.process = process
+                logger.info(f"Camera {self.camera_id} FFmpeg process started successfully")
+                consecutive_failures = 0
+                self.successful_connections += 1
+                
+                # Read frames with better error handling and buffering
+                frame_count = 0
+                read_timeout = 10.0  # 10 second timeout for reads
+                
+                while self.running and self.process.poll() is None:
+                    try:
+                        # Ultra-low latency: read immediately without select() delays
+                        raw_frame = self.process.stdout.read(self.frame_buffer_size)
+                        
+                        if len(raw_frame) == 0:
+                            logger.warning(f"Camera {self.camera_id} received EOF")
+                            break
+                            
+                        if len(raw_frame) != self.frame_buffer_size:
+                            # Skip partial frames for ultra-low latency
+                            continue
+                            
+                        # Convert to numpy array - optimized path
+                        try:
+                            frame = np.frombuffer(raw_frame, dtype=np.uint8)
+                            frame = frame.reshape((self.target_size[1], self.target_size[0], 3))
+                            
+                            # Convert RGB to BGR for OpenCV
+                            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+                            
+                            # Add overlay
+                            self._add_overlay(frame)
+                            
+                            # Update statistics
+                            self.total_frames += 1
+                            self.last_frame_time = time.time()
+                            self._update_fps()
+                            frame_count += 1
+                            
+                            # Ultra-low latency: aggressive frame dropping
+                            while not self.frame_queue.empty():
+                                try:
+                                    self.frame_queue.get_nowait()
+                                    self.dropped_frames += 1
+                                except queue.Empty:
+                                    break
+                                    
+                            # Add new frame
+                            try:
+                                self.frame_queue.put_nowait(frame)
+                                # Cache the latest frame to prevent flickering
+                                with self.last_frame_lock:
+                                    self.last_frame = frame.copy()
+                            except queue.Full:
+                                # Force drop and replace for ultra-low latency
+                                try:
+                                    self.frame_queue.get_nowait()
+                                    self.frame_queue.put_nowait(frame)
+                                    self.dropped_frames += 1
+                                    with self.last_frame_lock:
+                                        self.last_frame = frame.copy()
+                                except queue.Empty:
+                                    pass
+                            
+                            if frame_count % 100 == 0:  # Log every 100 frames
+                                logger.debug(f"Camera {self.camera_id} processed {frame_count} frames, FPS: {self.fps}")
+                                
+                        except Exception as e:
+                            logger.warning(f"Camera {self.camera_id} frame conversion error: {e}")
+                            continue
+                            
+                    except Exception as e:
+                        logger.warning(f"Camera {self.camera_id} frame read error: {e}")
+                        if frame_count == 0:
+                            break  # No frames received, likely connection issue
+                        continue
+                        
+                # Check why the process ended
+                if self.running:
+                    return_code = self.process.poll()
+                    stderr_output = ""
+                    if self.process.stderr:
+                        try:
+                            stderr_data = self.process.stderr.read()
+                            if stderr_data:
+                                stderr_output = stderr_data.decode('utf-8', errors='ignore')
+                        except:
+                            pass
+                    
+                    # Reset consecutive failures if we got some frames (partial success)
+                    if frame_count > 10:  # If we got at least 10 frames, reset failure count
+                        consecutive_failures = 0
+                        logger.info(f"Camera {self.camera_id} had partial success ({frame_count} frames), resetting failure count")
+                    else:
+                        consecutive_failures += 1
+                    
+                    if consecutive_failures > max_failures:
+                        logger.error(f"Camera {self.camera_id} failed {max_failures} times, giving up")
+                        logger.error(f"Last error: {stderr_output}")
+                        break
+                        
+                    logger.warning(f"Camera {self.camera_id} process ended (code: {return_code}, frames: {frame_count})")
+                    if stderr_output:
+                        logger.warning(f"Camera {self.camera_id} stderr: {stderr_output[:200]}...")
+                    
+                    # Clear frame queue and cache before reconnecting
+                    while not self.frame_queue.empty():
+                        try:
+                            self.frame_queue.get_nowait()
+                        except queue.Empty:
+                            break
+                    
+                    with self.last_frame_lock:
+                        self.last_frame = None
+                    
+            except Exception as e:
+                consecutive_failures += 1
+                logger.error(f"Camera {self.camera_id} setup error: {e}")
+                
+                # Clean up failed process
+                if self.process:
+                    try:
+                        self.process.terminate()
+                        self.process.wait(timeout=2)
+                    except:
+                        try:
+                            self.process.kill()
+                        except:
+                            pass
+                    self.process = None
+                
+                if consecutive_failures > max_failures:
+                    logger.error(f"Camera {self.camera_id} setup failed {max_failures} times, giving up")
+                    break
+                    
+        logger.info(f"Camera {self.camera_id} stream loop ended")
+        
+    def _update_fps(self):
+        """Update FPS counter"""
+        self.fps_counter += 1
+        current_time = time.time()
+        if current_time - self.last_fps_time >= 1.0:
+            self.fps = self.fps_counter
+            self.fps_counter = 0
+            self.last_fps_time = current_time
+            
+    def _add_overlay(self, frame):
+        """Add informational overlay (disabled for ultra-low latency)"""
+        # For ultra-low latency, skip overlays to save processing time
+        # Uncomment below if you want overlays back
+        pass
+        
+        # Original overlay code (commented for performance):
+        # font = cv2.FONT_HERSHEY_SIMPLEX
+        # font_scale = 0.4
+        # color = (0, 255, 0)
+        # thickness = 1
+        # 
+        # # Create semi-transparent background
+        # overlay = frame.copy()
+        # cv2.rectangle(overlay, (5, 5), (180, 70), (0, 0, 0), -1)
+        # frame[:] = cv2.addWeighted(frame, 0.8, overlay, 0.2, 0)
+        # 
+        # # Add text
+        # texts = [
+        #     f"Cam {self.camera_id}",
+        #     f"FPS: {self.fps}",
+        #     f"Frames: {self.total_frames}",
+        #     f"Dropped: {self.dropped_frames}"
+        # ]
+        # 
+        # for i, text in enumerate(texts):
+        #     y = 18 + i * 12
+        #     cv2.putText(frame, text, (8, y), font, font_scale, color, thickness)
+            
+    def get_frame(self):
+        """Get latest frame with fallback to prevent flickering"""
+        try:
+            # Try to get the newest frame
+            frame = self.frame_queue.get_nowait()
+            # Update cached frame
+            with self.last_frame_lock:
+                self.last_frame = frame.copy()
+            return frame
+        except queue.Empty:
+            # Return cached frame to prevent flickering
+            with self.last_frame_lock:
+                if self.last_frame is not None:
+                    return self.last_frame.copy()
+            return None
+            
+    def restart(self):
+        """Restart the camera stream"""
+        logger.info(f"Camera {self.camera_id} manual restart requested")
+        if self.process:
+            try:
+                self.process.terminate()
+                self.process.wait(timeout=2)
+            except:
+                try:
+                    self.process.kill()
+                except:
+                    pass
+            self.process = None
+        
+        # Clear frame queue and cache
+        while not self.frame_queue.empty():
+            try:
+                self.frame_queue.get_nowait()
+            except queue.Empty:
+                break
+        
+        with self.last_frame_lock:
+            self.last_frame = None
+            
+    def is_healthy(self):
+        """Check if camera is healthy (optimized for ultra-low latency)"""
+        if not self.running:
+            return False
+        if not self.process:
+            return False
+        if self.process.poll() is not None:  # Process has terminated
+            return False
+        if time.time() - self.last_frame_time > 3:  # Very short timeout for faster disconnection detection
+            return False
+        return True
+
+class RobustViewer:
+    """Robust viewer for multiple cameras (1-8, auto-scaling)"""
+    
+    def __init__(self, config_file="config.ini"):
+        self.config = configparser.ConfigParser()
+        self.config.read(config_file)
+        
+        # Load camera configurations
+        self.cameras = {}
+        self.camera_configs = self._load_camera_configs()
+        
+        # Camera rotation state (0=0°, 1=90°, 2=180°, 3=270°)
+        self.camera_rotations = {camera_id: 0 for camera_id in self.camera_configs.keys()}
+        
+        # Calculate optimal grid layout and sizing
+        self.num_cameras = len(self.camera_configs)
+        self.grid_rows, self.grid_cols = self._calculate_grid_layout(self.num_cameras)
+        self.single_cam_size = self._calculate_camera_size(self.grid_rows, self.grid_cols)
+        self.window_size = self._calculate_window_size(self.grid_rows, self.grid_cols, self.single_cam_size)
+        
+        # View mode management
+        self.view_mode = "grid"  # "grid" or "fullscreen"
+        self.fullscreen_camera_index = 0  # Index of camera in fullscreen mode
+        self.camera_id_list = sorted(self.camera_configs.keys(), key=lambda x: int(x))  # Sorted list for navigation
+        
+        self.running = False
+        # Use a fixed window name to avoid window recreation issues
+        self.window_name = "Ultra-Low Latency Camera Viewer"
+        
+        logger.info(f"RobustViewer initialized with {self.num_cameras} cameras in {self.grid_rows}x{self.grid_cols} grid")
+        logger.info(f"Camera size: {self.single_cam_size}, Window size: {self.window_size}")
+        
+    def _load_camera_configs(self):
+        """Load camera configurations from config file"""
+        configs = {}
+        if 'cameras' in self.config:
+            for key, value in self.config['cameras'].items():
+                if key.startswith('camera') and key.endswith('_url') and not key.endswith('_lowres'):
+                    camera_num = key.replace('camera', '').replace('_url', '')
+                    configs[camera_num] = value
+        return configs
+    
+    def _calculate_grid_layout(self, num_cameras):
+        """Calculate optimal grid layout for given number of cameras"""
+        if num_cameras <= 0:
+            return 1, 1
+        elif num_cameras == 1:
+            return 1, 1
+        elif num_cameras == 2:
+            return 1, 2
+        elif num_cameras <= 4:
+            return 2, 2
+        elif num_cameras <= 6:
+            return 2, 3
+        elif num_cameras <= 8:
+            return 2, 4
+        else:
+            # For more than 8 cameras, calculate square-ish grid
+            rows = int(np.ceil(np.sqrt(num_cameras)))
+            cols = int(np.ceil(num_cameras / rows))
+            return rows, cols
+    
+    def _calculate_camera_size(self, rows, cols, window_width=None, window_height=None):
+        """Calculate individual camera frame size based on grid layout and actual window size"""
+        # Use actual window size if provided, otherwise use defaults
+        if window_width is None or window_height is None:
+            max_window_width = 1920  # Full HD width
+            max_window_height = 1080  # Full HD height
+        else:
+            max_window_width = window_width
+            max_window_height = window_height
+        
+        # Calculate camera size to fit within window
+        cam_width = max_window_width // cols
+        cam_height = max_window_height // rows
+        
+        # Maintain 16:9 aspect ratio, prefer smaller dimension
+        if cam_width / cam_height > 16/9:
+            cam_width = int(cam_height * 16/9)
+        else:
+            cam_height = int(cam_width * 9/16)
+        
+        # Ensure minimum size for readability
+        cam_width = max(320, cam_width)
+        cam_height = max(180, cam_height)
+        
+        return (cam_width, cam_height)
+    
+    def _calculate_window_size(self, rows, cols, cam_size):
+        """Calculate total window size"""
+        width = cols * cam_size[0]
+        height = rows * cam_size[1]
+        return (width, height)
+        
+    def start(self):
+        """Start the viewer"""
+        logger.info(f"Starting scalable {self.num_cameras}-camera viewer...")
+        
+        # Check FFmpeg availability
+        try:
+            result = subprocess.run(['ffmpeg', '-version'], 
+                                  capture_output=True, text=True, timeout=10)
+            if result.returncode != 0:
+                raise Exception("FFmpeg returned non-zero exit code")
+        except Exception as e:
+            logger.error(f"FFmpeg not available: {e}")
+            return False
+            
+        # Initialize cameras with staggered startup
+        for i, (camera_id, rtsp_url) in enumerate(self.camera_configs.items()):
+            logger.info(f"Initializing camera {camera_id}...")
+            camera = RobustFfmpegCamera(camera_id, rtsp_url, self.single_cam_size)
+            self.cameras[camera_id] = camera
+            camera.start()
+            
+            # Stagger startup minimally for ultra-low latency
+            if i < len(self.camera_configs) - 1:
+                logger.info(f"Waiting 2 seconds before starting next camera...")
+                time.sleep(2.0)
+                
+        # Reduce waiting time for ultra-low latency
+        logger.info("Waiting for cameras to establish connections...")
+        time.sleep(3)
+        
+        # Start display loop
+        self.running = True
+        self._display_loop()
+        
+        return True
+        
+    def stop(self):
+        """Stop the viewer"""
+        logger.info("Stopping robust viewer...")
+        self.running = False
+        
+        for camera in self.cameras.values():
+            camera.stop()
+            
+        cv2.destroyAllWindows()
+        
+    def _display_loop(self):
+        """Main display loop"""
+        # Create window without decorations - use WINDOW_NORMAL and then set properties
+        cv2.namedWindow(self.window_name, cv2.WINDOW_NORMAL)
+        # Remove window decorations and make it fullscreen-like
+        cv2.setWindowProperty(self.window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        
+        logger.info("=== Controls ===")
+        logger.info("ESC or 'q' - Quit")
+        logger.info("'s' - Show statistics")
+        logger.info("'h' - Show health status")
+        logger.info("'r' - Restart all cameras")
+        logger.info("SPACE - Toggle Grid/Fullscreen view")
+        logger.info("LEFT/RIGHT arrows - Switch camera in fullscreen")
+        logger.info("================")
+        
+        last_stats_time = time.time()
+        last_health_check = time.time()
+        
+        while self.running:
+            try:
+                # Collect frames from all cameras
+                frames = {}
+                healthy_cameras = 0
+                
+                for camera_id, camera in self.cameras.items():
+                    frame = camera.get_frame()
+                    if frame is not None:
+                        frames[camera_id] = frame
+                    
+                    if camera.is_healthy():
+                        healthy_cameras += 1
+                
+                # Periodic health check and auto-restart
+                current_time = time.time()
+                if current_time - last_health_check > 5:  # Check every 5 seconds
+                    for camera_id, camera in self.cameras.items():
+                        if not camera.is_healthy():
+                            logger.warning(f"Camera {camera_id} unhealthy, triggering restart")
+                            camera.restart()
+                    last_health_check = current_time
+                        
+                # Create display
+                display_frame = self._create_display(frames, healthy_cameras)
+                
+                if display_frame is not None:
+                    cv2.imshow(self.window_name, display_frame)
+                    
+                # Auto-show stats every 30 seconds
+                if current_time - last_stats_time > 30:
+                    self._show_statistics()
+                    last_stats_time = current_time
+                    
+                # Handle keyboard input with minimal wait for ultra-low latency
+                key = cv2.waitKey(1) & 0xFF  # 1ms wait for maximum responsiveness
+                if key == ord('q') or key == 27:  # ESC
+                    break
+                elif key == ord('s'):
+                    self._show_statistics()
+                elif key == ord('h'):
+                    self._show_health()
+                elif key == ord('r'):
+                    logger.info("Manual restart of all cameras requested")
+                    for camera_id, camera in self.cameras.items():
+                        logger.info(f"Restarting camera {camera_id}")
+                        camera.restart()
+                elif key == ord('R'):  # Uppercase R for rotation
+                    self._rotate_current_camera()
+                elif key == ord(' '):  # SPACE - Toggle view mode
+                    self._toggle_view_mode()
+                elif key == 81 or key == 2:  # LEFT arrow (different codes on different systems)
+                    self._previous_camera()
+                elif key == 83 or key == 3:  # RIGHT arrow (different codes on different systems)
+                    self._next_camera()
+                    
+            except Exception as e:
+                logger.error(f"Display loop error: {e}")
+                time.sleep(1)  # Prevent rapid error loops
+                
+        self.stop()
+        
+    def _toggle_view_mode(self):
+        """Toggle between grid and fullscreen view"""
+        if self.view_mode == "grid":
+            self.view_mode = "fullscreen"
+            current_camera = self.camera_id_list[self.fullscreen_camera_index]
+            logger.info(f"Switched to fullscreen mode - Camera {current_camera}")
+        else:
+            self.view_mode = "grid"
+            logger.info(f"Switched to grid mode - {self.num_cameras} cameras")
+    
+    def _next_camera(self):
+        """Switch to next camera in fullscreen mode"""
+        if self.view_mode == "fullscreen":
+            self.fullscreen_camera_index = (self.fullscreen_camera_index + 1) % len(self.camera_id_list)
+            current_camera = self.camera_id_list[self.fullscreen_camera_index]
+            logger.info(f"Switched to Camera {current_camera}")
+    
+    def _previous_camera(self):
+        """Switch to previous camera in fullscreen mode"""
+        if self.view_mode == "fullscreen":
+            self.fullscreen_camera_index = (self.fullscreen_camera_index - 1) % len(self.camera_id_list)
+            current_camera = self.camera_id_list[self.fullscreen_camera_index]
+            logger.info(f"Switched to Camera {current_camera}")
+        
+    def _create_display(self, frames, healthy_cameras):
+        """Create display based on current view mode"""
+        if self.view_mode == "fullscreen":
+            return self._create_fullscreen_display(frames)
+        else:
+            return self._create_grid_display(frames, healthy_cameras)
+    
+    def _create_fullscreen_display(self, frames):
+        """Create fullscreen display for single camera"""
+        if not self.camera_id_list:
+            # No cameras available
+            blank = np.zeros((720, 1280, 3), dtype=np.uint8)
+            cv2.putText(blank, "No cameras available", (400, 350), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 2)
+            return blank
+        
+        # Get current camera
+        current_camera_id = self.camera_id_list[self.fullscreen_camera_index]
+        
+        # Use a large size for fullscreen to maximize camera display
+        fullscreen_width = 1920
+        fullscreen_height = 1080
+        
+        # Try to get actual window size, but ensure minimum fullscreen size
+        try:
+            actual_window_size = self._get_actual_window_size()
+            fullscreen_width = max(fullscreen_width, actual_window_size[0])
+            fullscreen_height = max(fullscreen_height, actual_window_size[1])
+        except:
+            pass
+        
+        if current_camera_id in frames and frames[current_camera_id] is not None:
+            # Resize frame to fill window while maintaining aspect ratio
+            frame = frames[current_camera_id]
+            
+            # Apply rotation first
+            frame = self._rotate_frame(frame, current_camera_id)
+            
+            # Calculate scaling to fit window - use maximum scaling possible
+            frame_h, frame_w = frame.shape[:2]
+            
+            # Scale to fit window while maintaining aspect ratio
+            scale_w = fullscreen_width / frame_w
+            scale_h = fullscreen_height / frame_h
+            scale = min(scale_w, scale_h)
+            
+            # Make sure we're scaling up, not down
+            scale = max(scale, 1.0)
+            
+            new_w = int(frame_w * scale)
+            new_h = int(frame_h * scale)
+            
+            # Resize frame
+            resized_frame = cv2.resize(frame, (new_w, new_h))
+            
+            # Create black background and center the frame
+            display = np.zeros((fullscreen_height, fullscreen_width, 3), dtype=np.uint8)
+            y_offset = (fullscreen_height - new_h) // 2
+            x_offset = (fullscreen_width - new_w) // 2
+            display[y_offset:y_offset+new_h, x_offset:x_offset+new_w] = resized_frame
+            
+            # Add camera info overlay
+            font_scale = 1.5  # Larger font for fullscreen
+            thickness = 3
+            color = (0, 255, 0)
+            
+            # Camera title
+            title = f"Camera {current_camera_id} ({self.fullscreen_camera_index + 1}/{len(self.camera_id_list)})"
+            cv2.putText(display, title, (30, 60), cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
+            
+            # Navigation hint
+            hint = "Use LEFT/RIGHT arrows to switch cameras, SPACE for grid view, R to rotate"
+            cv2.putText(display, hint, (30, fullscreen_height - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
+            
+            return display
+        else:
+            # Camera not available - show placeholder
+            display = np.zeros((fullscreen_height, fullscreen_width, 3), dtype=np.uint8)
+            
+            if current_camera_id in self.cameras:
+                camera = self.cameras[current_camera_id]
+                if camera.is_healthy():
+                    status = "BUFFERING..."
+                    color = (0, 255, 255)  # Yellow
+                else:
+                    status = "CONNECTING..."
+                    color = (0, 255, 0)  # Green
+            else:
+                status = "OFFLINE"
+                color = (0, 0, 255)  # Red
+            
+            # Center text
+            font_scale = 3.0  # Much larger for fullscreen
+            thickness = 5
+            
+            title = f"Camera {current_camera_id}"
+            title_size = cv2.getTextSize(title, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness)[0]
+            title_x = (fullscreen_width - title_size[0]) // 2
+            title_y = (fullscreen_height - title_size[1]) // 2 - 60
+            
+            status_size = cv2.getTextSize(status, cv2.FONT_HERSHEY_SIMPLEX, font_scale * 0.8, thickness)[0]
+            status_x = (fullscreen_width - status_size[0]) // 2
+            status_y = title_y + 120
+            
+            cv2.putText(display, title, (title_x, title_y), cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
+            cv2.putText(display, status, (status_x, status_y), cv2.FONT_HERSHEY_SIMPLEX, font_scale * 0.8, color, thickness)
+            
+            # Navigation hint
+            hint = "Use LEFT/RIGHT arrows to switch cameras, SPACE for grid view, R to rotate"
+            cv2.putText(display, hint, (30, fullscreen_height - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+            
+            return display
+            
+    def _create_grid_display(self, frames, healthy_cameras):
+        """Create scalable grid display for any number of cameras"""
+        # Get sorted camera IDs for consistent positioning
+        camera_ids = sorted(self.camera_configs.keys(), key=lambda x: int(x))
+        total_positions = self.grid_rows * self.grid_cols
+        
+        # Get actual window size for optimal scaling
+        actual_window_size = self._get_actual_window_size()
+        target_width, target_height = actual_window_size
+        
+        # Calculate optimal camera size to fill the window completely
+        cam_width = target_width // self.grid_cols
+        cam_height = target_height // self.grid_rows
+        
+        # Use the calculated size directly without forcing 16:9 aspect ratio
+        # This allows cameras to fill their allocated space completely
+        dynamic_cam_size = (cam_width, cam_height)
+        
+        # Create grid frames
+        grid_frames = []
+        
+        for i in range(total_positions):
+            if i < len(camera_ids):
+                camera_id = camera_ids[i]
+                
+                if camera_id in frames and frames[camera_id] is not None:
+                    # Apply rotation first, then resize frame to fill the entire allocated space
+                    frame = self._rotate_frame(frames[camera_id], camera_id)
+                    frame = cv2.resize(frame, dynamic_cam_size)
+                    grid_frames.append(frame)
+                else:
+                    # Create placeholder
+                    placeholder = np.zeros((dynamic_cam_size[1], dynamic_cam_size[0], 3), dtype=np.uint8)
+                    
+                    if camera_id in self.cameras:
+                        camera = self.cameras[camera_id]
+                        if camera.is_healthy():
+                            status = "BUFFERING..."
+                            color = (0, 255, 255)  # Yellow for buffering
+                        else:
+                            status = "CONNECTING..."
+                            color = (0, 255, 0)  # Green for connecting
+                    else:
+                        status = "OFFLINE"
+                        color = (0, 0, 255)  # Red for offline
+                    
+                    # Scale text based on camera size
+                    font_scale = max(0.5, min(1.2, dynamic_cam_size[0] / 640))
+                    thickness = max(1, int(font_scale * 2))
+                    
+                    # Center text positioning
+                    text_x = dynamic_cam_size[0] // 4
+                    text_y = dynamic_cam_size[1] // 2 - 20
+                    status_y = dynamic_cam_size[1] // 2 + 20
+                    
+                    cv2.putText(placeholder, f"Camera {camera_id}", (text_x, text_y), 
+                               cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
+                    cv2.putText(placeholder, status, (text_x + 20, status_y), 
+                               cv2.FONT_HERSHEY_SIMPLEX, font_scale * 0.8, color, thickness)
+                    grid_frames.append(placeholder)
+            else:
+                # Empty position - create black frame
+                empty_frame = np.zeros((dynamic_cam_size[1], dynamic_cam_size[0], 3), dtype=np.uint8)
+                grid_frames.append(empty_frame)
+        
+        # Arrange frames in grid
+        rows = []
+        for row in range(self.grid_rows):
+            row_frames = []
+            for col in range(self.grid_cols):
+                idx = row * self.grid_cols + col
+                if idx < len(grid_frames):
+                    row_frames.append(grid_frames[idx])
+                else:
+                    # Shouldn't happen, but safety fallback
+                    empty_frame = np.zeros((dynamic_cam_size[1], dynamic_cam_size[0], 3), dtype=np.uint8)
+                    row_frames.append(empty_frame)
+            
+            # Horizontally stack frames in this row
+            if row_frames:
+                row_image = np.hstack(row_frames)
+                rows.append(row_image)
+        
+        # Vertically stack all rows to create the final grid
+        if rows:
+            final_display = np.vstack(rows)
+            
+            # Ensure the final display matches the target window size exactly
+            if final_display.shape[:2] != (target_height, target_width):
+                final_display = cv2.resize(final_display, (target_width, target_height))
+            
+            # Add grid mode indicator
+            font_scale = 0.8
+            thickness = 1
+            color = (255, 255, 255)
+            hint = "Press SPACE for fullscreen mode"
+            cv2.putText(final_display, hint, (10, target_height - 10), 
+                       cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
+            
+            return final_display
+        else:
+            # Fallback - shouldn't happen
+            return np.zeros((target_height, target_width, 3), dtype=np.uint8)
+        
+    def _show_statistics(self):
+        """Show camera statistics"""
+        logger.info("=== Camera Statistics ===")
+        for camera_id, camera in self.cameras.items():
+            logger.info(f"Camera {camera_id}:")
+            logger.info(f"  FPS: {camera.fps}")
+            logger.info(f"  Total Frames: {camera.total_frames}")
+            logger.info(f"  Dropped Frames: {camera.dropped_frames}")
+            logger.info(f"  Connections: {camera.successful_connections}/{camera.connection_attempts}")
+            logger.info(f"  Healthy: {camera.is_healthy()}")
+        logger.info("========================")
+        
+    def _show_health(self):
+        """Show camera health status"""
+        logger.info("=== Health Status ===")
+        for camera_id, camera in self.cameras.items():
+            status = "HEALTHY" if camera.is_healthy() else "UNHEALTHY"
+            logger.info(f"Camera {camera_id}: {status}")
+        logger.info("=====================")
+    
+    def _get_actual_window_size(self):
+        """Get the actual window size from OpenCV"""
+        try:
+            # Try multiple methods to get window size
+            # Method 1: Get window image rect
+            rect = cv2.getWindowImageRect(self.window_name)
+            if rect[2] > 0 and rect[3] > 0:
+                logger.debug(f"Window size from getWindowImageRect: {rect[2]}x{rect[3]}")
+                # If window is maximized or very large, use it
+                if rect[2] > 1600 or rect[3] > 900:
+                    return (rect[2], rect[3])
+        except Exception as e:
+            logger.debug(f"getWindowImageRect failed: {e}")
+        
+        # Try to detect if window might be maximized by checking common screen resolutions
+        import subprocess
+        try:
+            # Get screen resolution using xrandr (Linux)
+            result = subprocess.run(['xrandr'], capture_output=True, text=True, timeout=2)
+            if result.returncode == 0:
+                for line in result.stdout.split('\n'):
+                    if '*' in line and '+' in line:  # Current resolution marker
+                        parts = line.split()
+                        for part in parts:
+                            if 'x' in part and part.replace('x', '').replace('.', '').isdigit():
+                                width, height = map(int, part.split('x')[0:2])
+                                if width >= 1920 and height >= 1080:
+                                    logger.debug(f"Detected large screen resolution: {width}x{height}")
+                                    return (width, height)
+        except:
+            pass
+        
+        # For fullscreen mode, use a larger default size
+        if self.view_mode == "fullscreen":
+            # Use a much larger size for fullscreen
+            fullscreen_size = (1920, 1080)  # Full HD
+            logger.debug(f"Using fullscreen default size: {fullscreen_size}")
+            return fullscreen_size
+        
+        # For grid mode, also use generous sizing when window seems large
+        # Use at least Full HD for better scaling
+        default_size = (1920, 1080)
+        logger.debug(f"Using default large size: {default_size}")
+        return default_size
+    
+    def _update_camera_sizes_for_window(self):
+        """Update camera sizes based on current window size"""
+        # For grid mode, try to get actual window size
+        try:
+            actual_size = self._get_actual_window_size()
+            # Use a more generous size for grid mode
+            grid_width = max(1920, actual_size[0])
+            grid_height = max(1080, actual_size[1])
+            
+            # Recalculate camera sizes for the actual window
+            new_cam_size = self._calculate_camera_size(
+                self.grid_rows, self.grid_cols, grid_width, grid_height
+            )
+            logger.debug(f"Dynamic camera size: {new_cam_size}, window size: {grid_width}x{grid_height}")
+            return new_cam_size, (grid_width, grid_height)
+        except:
+            # Fallback to larger default sizes
+            default_width = 1920
+            default_height = 1080
+            new_cam_size = self._calculate_camera_size(
+                self.grid_rows, self.grid_cols, default_width, default_height
+            )
+            return new_cam_size, (default_width, default_height)
+
+    def _rotate_frame(self, frame, camera_id):
+        """Rotate frame based on camera rotation state"""
+        if camera_id not in self.camera_rotations:
+            return frame
+            
+        rotation = self.camera_rotations[camera_id]
+        
+        if rotation == 0:
+            return frame
+        elif rotation == 1:  # 90° clockwise
+            return cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+        elif rotation == 2:  # 180°
+            return cv2.rotate(frame, cv2.ROTATE_180)
+        elif rotation == 3:  # 270° clockwise (90° counter-clockwise)
+            return cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
+        else:
+            return frame
+    
+    def _rotate_current_camera(self):
+        """Rotate the current camera in fullscreen mode"""
+        if self.view_mode == "fullscreen" and self.camera_id_list:
+            current_camera_id = self.camera_id_list[self.fullscreen_camera_index]
+            self.camera_rotations[current_camera_id] = (self.camera_rotations[current_camera_id] + 1) % 4
+            rotation_degrees = self.camera_rotations[current_camera_id] * 90
+            logger.info(f"Rotated Camera {current_camera_id} to {rotation_degrees}°")
+        
+    def _load_camera_configs(self):
+        """Load camera configurations from config file"""
+        configs = {}
+        if 'cameras' in self.config:
+            for key, value in self.config['cameras'].items():
+                if key.startswith('camera') and key.endswith('_url') and not key.endswith('_lowres'):
+                    camera_num = key.replace('camera', '').replace('_url', '')
+                    configs[camera_num] = value
+        return configs
+    
+    def _calculate_grid_layout(self, num_cameras):
+        """Calculate optimal grid layout for given number of cameras"""
+        if num_cameras <= 0:
+            return 1, 1
+        elif num_cameras == 1:
+            return 1, 1
+        elif num_cameras == 2:
+            return 1, 2
+        elif num_cameras <= 4:
+            return 2, 2
+        elif num_cameras <= 6:
+            return 2, 3
+        elif num_cameras <= 8:
+            return 2, 4
+        else:
+            # For more than 8 cameras, calculate square-ish grid
+            rows = int(np.ceil(np.sqrt(num_cameras)))
+            cols = int(np.ceil(num_cameras / rows))
+            return rows, cols
+    
+    def _calculate_camera_size(self, rows, cols, window_width=None, window_height=None):
+        """Calculate individual camera frame size based on grid layout and actual window size"""
+        # Use actual window size if provided, otherwise use defaults
+        if window_width is None or window_height is None:
+            max_window_width = 1920  # Full HD width
+            max_window_height = 1080  # Full HD height
+        else:
+            max_window_width = window_width
+            max_window_height = window_height
+        
+        # Calculate camera size to fit within window
+        cam_width = max_window_width // cols
+        cam_height = max_window_height // rows
+        
+        # Maintain 16:9 aspect ratio, prefer smaller dimension
+        if cam_width / cam_height > 16/9:
+            cam_width = int(cam_height * 16/9)
+        else:
+            cam_height = int(cam_width * 9/16)
+        
+        # Ensure minimum size for readability
+        cam_width = max(320, cam_width)
+        cam_height = max(180, cam_height)
+        
+        return (cam_width, cam_height)
+    
+    def _calculate_window_size(self, rows, cols, cam_size):
+        """Calculate total window size"""
+        width = cols * cam_size[0]
+        height = rows * cam_size[1]
+        return (width, height)
+        
+    def start(self):
+        """Start the viewer"""
+        logger.info(f"Starting scalable {self.num_cameras}-camera viewer...")
+        
+        # Check FFmpeg availability
+        try:
+            result = subprocess.run(['ffmpeg', '-version'], 
+                                  capture_output=True, text=True, timeout=10)
+            if result.returncode != 0:
+                raise Exception("FFmpeg returned non-zero exit code")
+        except Exception as e:
+            logger.error(f"FFmpeg not available: {e}")
+            return False
+            
+        # Initialize cameras with staggered startup
+        for i, (camera_id, rtsp_url) in enumerate(self.camera_configs.items()):
+            logger.info(f"Initializing camera {camera_id}...")
+            camera = RobustFfmpegCamera(camera_id, rtsp_url, self.single_cam_size)
+            self.cameras[camera_id] = camera
+            camera.start()
+            
+            # Stagger startup minimally for ultra-low latency
+            if i < len(self.camera_configs) - 1:
+                logger.info(f"Waiting 2 seconds before starting next camera...")
+                time.sleep(2.0)
+                
+        # Reduce waiting time for ultra-low latency
+        logger.info("Waiting for cameras to establish connections...")
+        time.sleep(3)
+        
+        # Start display loop
+        self.running = True
+        self._display_loop()
+        
+        return True
+        
+    def stop(self):
+        """Stop the viewer"""
+        logger.info("Stopping robust viewer...")
+        self.running = False
+        
+        for camera in self.cameras.values():
+            camera.stop()
+            
+        cv2.destroyAllWindows()
+        
+    def _display_loop(self):
+        """Main display loop"""
+        # Create window without decorations - use WINDOW_NORMAL and then set properties
+        cv2.namedWindow(self.window_name, cv2.WINDOW_NORMAL)
+        # Remove window decorations and make it fullscreen-like
+        cv2.setWindowProperty(self.window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        
+        logger.info("=== Controls ===")
+        logger.info("ESC or 'q' - Quit")
+        logger.info("'s' - Show statistics")
+        logger.info("'h' - Show health status")
+        logger.info("'r' - Restart all cameras")
+        logger.info("SPACE - Toggle Grid/Fullscreen view")
+        logger.info("LEFT/RIGHT arrows - Switch camera in fullscreen")
+        logger.info("================")
+        
+        last_stats_time = time.time()
+        last_health_check = time.time()
+        
+        while self.running:
+            try:
+                # Collect frames from all cameras
+                frames = {}
+                healthy_cameras = 0
+                
+                for camera_id, camera in self.cameras.items():
+                    frame = camera.get_frame()
+                    if frame is not None:
+                        frames[camera_id] = frame
+                    
+                    if camera.is_healthy():
+                        healthy_cameras += 1
+                
+                # Periodic health check and auto-restart
+                current_time = time.time()
+                if current_time - last_health_check > 5:  # Check every 5 seconds
+                    for camera_id, camera in self.cameras.items():
+                        if not camera.is_healthy():
+                            logger.warning(f"Camera {camera_id} unhealthy, triggering restart")
+                            camera.restart()
+                    last_health_check = current_time
+                        
+                # Create display
+                display_frame = self._create_display(frames, healthy_cameras)
+                
+                if display_frame is not None:
+                    cv2.imshow(self.window_name, display_frame)
+                    
+                # Auto-show stats every 30 seconds
+                if current_time - last_stats_time > 30:
+                    self._show_statistics()
+                    last_stats_time = current_time
+                    
+                # Handle keyboard input with minimal wait for ultra-low latency
+                key = cv2.waitKey(1) & 0xFF  # 1ms wait for maximum responsiveness
+                if key == ord('q') or key == 27:  # ESC
+                    break
+                elif key == ord('s'):
+                    self._show_statistics()
+                elif key == ord('h'):
+                    self._show_health()
+                elif key == ord('r'):
+                    logger.info("Manual restart of all cameras requested")
+                    for camera_id, camera in self.cameras.items():
+                        logger.info(f"Restarting camera {camera_id}")
+                        camera.restart()
+                elif key == ord('R'):  # Uppercase R for rotation
+                    self._rotate_current_camera()
+                elif key == ord(' '):  # SPACE - Toggle view mode
+                    self._toggle_view_mode()
+                elif key == 81 or key == 2:  # LEFT arrow (different codes on different systems)
+                    self._previous_camera()
+                elif key == 83 or key == 3:  # RIGHT arrow (different codes on different systems)
+                    self._next_camera()
+                    
+            except Exception as e:
+                logger.error(f"Display loop error: {e}")
+                time.sleep(1)  # Prevent rapid error loops
+                
+        self.stop()
+        
+    def _toggle_view_mode(self):
+        """Toggle between grid and fullscreen view"""
+        if self.view_mode == "grid":
+            self.view_mode = "fullscreen"
+            current_camera = self.camera_id_list[self.fullscreen_camera_index]
+            logger.info(f"Switched to fullscreen mode - Camera {current_camera}")
+        else:
+            self.view_mode = "grid"
+            logger.info(f"Switched to grid mode - {self.num_cameras} cameras")
+    
+    def _next_camera(self):
+        """Switch to next camera in fullscreen mode"""
+        if self.view_mode == "fullscreen":
+            self.fullscreen_camera_index = (self.fullscreen_camera_index + 1) % len(self.camera_id_list)
+            current_camera = self.camera_id_list[self.fullscreen_camera_index]
+            logger.info(f"Switched to Camera {current_camera}")
+    
+    def _previous_camera(self):
+        """Switch to previous camera in fullscreen mode"""
+        if self.view_mode == "fullscreen":
+            self.fullscreen_camera_index = (self.fullscreen_camera_index - 1) % len(self.camera_id_list)
+            current_camera = self.camera_id_list[self.fullscreen_camera_index]
+            logger.info(f"Switched to Camera {current_camera}")
+        
+    def _create_display(self, frames, healthy_cameras):
+        """Create display based on current view mode"""
+        if self.view_mode == "fullscreen":
+            return self._create_fullscreen_display(frames)
+        else:
+            return self._create_grid_display(frames, healthy_cameras)
+    
+    def _create_fullscreen_display(self, frames):
+        """Create fullscreen display for single camera"""
+        if not self.camera_id_list:
+            # No cameras available
+            blank = np.zeros((720, 1280, 3), dtype=np.uint8)
+            cv2.putText(blank, "No cameras available", (400, 350), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 2)
+            return blank
+        
+        # Get current camera
+        current_camera_id = self.camera_id_list[self.fullscreen_camera_index]
+        
+        # Use a large size for fullscreen to maximize camera display
+        fullscreen_width = 1920
+        fullscreen_height = 1080
+        
+        # Try to get actual window size, but ensure minimum fullscreen size
+        try:
+            actual_window_size = self._get_actual_window_size()
+            fullscreen_width = max(fullscreen_width, actual_window_size[0])
+            fullscreen_height = max(fullscreen_height, actual_window_size[1])
+        except:
+            pass
+        
+        if current_camera_id in frames and frames[current_camera_id] is not None:
+            # Resize frame to fill window while maintaining aspect ratio
+            frame = frames[current_camera_id]
+            
+            # Apply rotation first
+            frame = self._rotate_frame(frame, current_camera_id)
+            
+            # Calculate scaling to fit window - use maximum scaling possible
+            frame_h, frame_w = frame.shape[:2]
+            
+            # Scale to fit window while maintaining aspect ratio
+            scale_w = fullscreen_width / frame_w
+            scale_h = fullscreen_height / frame_h
+            scale = min(scale_w, scale_h)
+            
+            # Make sure we're scaling up, not down
+            scale = max(scale, 1.0)
+            
+            new_w = int(frame_w * scale)
+            new_h = int(frame_h * scale)
+            
+            # Resize frame
+            resized_frame = cv2.resize(frame, (new_w, new_h))
+            
+            # Create black background and center the frame
+            display = np.zeros((fullscreen_height, fullscreen_width, 3), dtype=np.uint8)
+            y_offset = (fullscreen_height - new_h) // 2
+            x_offset = (fullscreen_width - new_w) // 2
+            display[y_offset:y_offset+new_h, x_offset:x_offset+new_w] = resized_frame
+            
+            # Add camera info overlay
+            font_scale = 1.5  # Larger font for fullscreen
+            thickness = 3
+            color = (0, 255, 0)
+            
+            # Camera title
+            title = f"Camera {current_camera_id} ({self.fullscreen_camera_index + 1}/{len(self.camera_id_list)})"
+            cv2.putText(display, title, (30, 60), cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
+            
+            # Navigation hint
+            hint = "Use LEFT/RIGHT arrows to switch cameras, SPACE for grid view, R to rotate"
+            cv2.putText(display, hint, (30, fullscreen_height - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
+            
+            return display
+        else:
+            # Camera not available - show placeholder
+            display = np.zeros((fullscreen_height, fullscreen_width, 3), dtype=np.uint8)
+            
+            if current_camera_id in self.cameras:
+                camera = self.cameras[current_camera_id]
+                if camera.is_healthy():
+                    status = "BUFFERING..."
+                    color = (0, 255, 255)  # Yellow
+                else:
+                    status = "CONNECTING..."
+                    color = (0, 255, 0)  # Green
+            else:
+                status = "OFFLINE"
+                color = (0, 0, 255)  # Red
+            
+            # Center text
+            font_scale = 3.0  # Much larger for fullscreen
+            thickness = 5
+            
+            title = f"Camera {current_camera_id}"
+            title_size = cv2.getTextSize(title, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness)[0]
+            title_x = (fullscreen_width - title_size[0]) // 2
+            title_y = (fullscreen_height - title_size[1]) // 2 - 60
+            
+            status_size = cv2.getTextSize(status, cv2.FONT_HERSHEY_SIMPLEX, font_scale * 0.8, thickness)[0]
+            status_x = (fullscreen_width - status_size[0]) // 2
+            status_y = title_y + 120
+            
+            cv2.putText(display, title, (title_x, title_y), cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
+            cv2.putText(display, status, (status_x, status_y), cv2.FONT_HERSHEY_SIMPLEX, font_scale * 0.8, color, thickness)
+            
+            # Navigation hint
+            hint = "Use LEFT/RIGHT arrows to switch cameras, SPACE for grid view, R to rotate"
+            cv2.putText(display, hint, (30, fullscreen_height - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+            
+            return display
+            
+    def _create_grid_display(self, frames, healthy_cameras):
+        """Create scalable grid display for any number of cameras"""
+        # Get sorted camera IDs for consistent positioning
+        camera_ids = sorted(self.camera_configs.keys(), key=lambda x: int(x))
+        total_positions = self.grid_rows * self.grid_cols
+        
+        # Get actual window size for optimal scaling
+        actual_window_size = self._get_actual_window_size()
+        target_width, target_height = actual_window_size
+        
+        # Calculate optimal camera size to fill the window completely
+        cam_width = target_width // self.grid_cols
+        cam_height = target_height // self.grid_rows
+        
+        # Use the calculated size directly without forcing 16:9 aspect ratio
+        # This allows cameras to fill their allocated space completely
+        dynamic_cam_size = (cam_width, cam_height)
+        
+        # Create grid frames
+        grid_frames = []
+        
+        for i in range(total_positions):
+            if i < len(camera_ids):
+                camera_id = camera_ids[i]
+                
+                if camera_id in frames and frames[camera_id] is not None:
+                    # Apply rotation first, then resize frame to fill the entire allocated space
+                    frame = self._rotate_frame(frames[camera_id], camera_id)
+                    frame = cv2.resize(frame, dynamic_cam_size)
+                    grid_frames.append(frame)
+                else:
+                    # Create placeholder
+                    placeholder = np.zeros((dynamic_cam_size[1], dynamic_cam_size[0], 3), dtype=np.uint8)
+                    
+                    if camera_id in self.cameras:
+                        camera = self.cameras[camera_id]
+                        if camera.is_healthy():
+                            status = "BUFFERING..."
+                            color = (0, 255, 255)  # Yellow for buffering
+                        else:
+                            status = "CONNECTING..."
+                            color = (0, 255, 0)  # Green for connecting
+                    else:
+                        status = "OFFLINE"
+                        color = (0, 0, 255)  # Red for offline
+                    
+                    # Scale text based on camera size
+                    font_scale = max(0.5, min(1.2, dynamic_cam_size[0] / 640))
+                    thickness = max(1, int(font_scale * 2))
+                    
+                    # Center text positioning
+                    text_x = dynamic_cam_size[0] // 4
+                    text_y = dynamic_cam_size[1] // 2 - 20
+                    status_y = dynamic_cam_size[1] // 2 + 20
+                    
+                    cv2.putText(placeholder, f"Camera {camera_id}", (text_x, text_y), 
+                               cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
+                    cv2.putText(placeholder, status, (text_x + 20, status_y), 
+                               cv2.FONT_HERSHEY_SIMPLEX, font_scale * 0.8, color, thickness)
+                    grid_frames.append(placeholder)
+            else:
+                # Empty position - create black frame
+                empty_frame = np.zeros((dynamic_cam_size[1], dynamic_cam_size[0], 3), dtype=np.uint8)
+                grid_frames.append(empty_frame)
+        
+        # Arrange frames in grid
+        rows = []
+        for row in range(self.grid_rows):
+            row_frames = []
+            for col in range(self.grid_cols):
+                idx = row * self.grid_cols + col
+                if idx < len(grid_frames):
+                    row_frames.append(grid_frames[idx])
+                else:
+                    # Shouldn't happen, but safety fallback
+                    empty_frame = np.zeros((dynamic_cam_size[1], dynamic_cam_size[0], 3), dtype=np.uint8)
+                    row_frames.append(empty_frame)
+            
+            # Horizontally stack frames in this row
+            if row_frames:
+                row_image = np.hstack(row_frames)
+                rows.append(row_image)
+        
+        # Vertically stack all rows to create the final grid
+        if rows:
+            final_display = np.vstack(rows)
+            
+            # Ensure the final display matches the target window size exactly
+            if final_display.shape[:2] != (target_height, target_width):
+                final_display = cv2.resize(final_display, (target_width, target_height))
+            
+            # Add grid mode indicator
+            font_scale = 0.8
+            thickness = 1
+            color = (255, 255, 255)
+            hint = "Press SPACE for fullscreen mode"
+            cv2.putText(final_display, hint, (10, target_height - 10), 
+                       cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
+            
+            return final_display
+        else:
+            # Fallback - shouldn't happen
+            return np.zeros((target_height, target_width, 3), dtype=np.uint8)
+        
+    def _show_statistics(self):
+        """Show camera statistics"""
+        logger.info("=== Camera Statistics ===")
+        for camera_id, camera in self.cameras.items():
+            logger.info(f"Camera {camera_id}:")
+            logger.info(f"  FPS: {camera.fps}")
+            logger.info(f"  Total Frames: {camera.total_frames}")
+            logger.info(f"  Dropped Frames: {camera.dropped_frames}")
+            logger.info(f"  Connections: {camera.successful_connections}/{camera.connection_attempts}")
+            logger.info(f"  Healthy: {camera.is_healthy()}")
+        logger.info("========================")
+        
+    def _show_health(self):
+        """Show camera health status"""
+        logger.info("=== Health Status ===")
+        for camera_id, camera in self.cameras.items():
+            status = "HEALTHY" if camera.is_healthy() else "UNHEALTHY"
+            logger.info(f"Camera {camera_id}: {status}")
+        logger.info("=====================")
+    
+    def _get_actual_window_size(self):
+        """Get the actual window size from OpenCV"""
+        try:
+            # Try multiple methods to get window size
+            # Method 1: Get window image rect
+            rect = cv2.getWindowImageRect(self.window_name)
+            if rect[2] > 0 and rect[3] > 0:
+                logger.debug(f"Window size from getWindowImageRect: {rect[2]}x{rect[3]}")
+                # If window is maximized or very large, use it
+                if rect[2] > 1600 or rect[3] > 900:
+                    return (rect[2], rect[3])
+        except Exception as e:
+            logger.debug(f"getWindowImageRect failed: {e}")
+        
+        # Try to detect if window might be maximized by checking common screen resolutions
+        import subprocess
+        try:
+            # Get screen resolution using xrandr (Linux)
+            result = subprocess.run(['xrandr'], capture_output=True, text=True, timeout=2)
+            if result.returncode == 0:
+                for line in result.stdout.split('\n'):
+                    if '*' in line and '+' in line:  # Current resolution marker
+                        parts = line.split()
+                        for part in parts:
+                            if 'x' in part and part.replace('x', '').replace('.', '').isdigit():
+                                width, height = map(int, part.split('x')[0:2])
+                                if width >= 1920 and height >= 1080:
+                                    logger.debug(f"Detected large screen resolution: {width}x{height}")
+                                    return (width, height)
+        except:
+            pass
+        
+        # For fullscreen mode, use a larger default size
+        if self.view_mode == "fullscreen":
+            # Use a much larger size for fullscreen
+            fullscreen_size = (1920, 1080)  # Full HD
+            logger.debug(f"Using fullscreen default size: {fullscreen_size}")
+            return fullscreen_size
+        
+        # For grid mode, also use generous sizing when window seems large
+        # Use at least Full HD for better scaling
+        default_size = (1920, 1080)
+        logger.debug(f"Using default large size: {default_size}")
+        return default_size
+    
+    def _update_camera_sizes_for_window(self):
+        """Update camera sizes based on current window size"""
+        # For grid mode, try to get actual window size
+        try:
+            actual_size = self._get_actual_window_size()
+            # Use a more generous size for grid mode
+            grid_width = max(1920, actual_size[0])
+            grid_height = max(1080, actual_size[1])
+            
+            # Recalculate camera sizes for the actual window
+            new_cam_size = self._calculate_camera_size(
+                self.grid_rows, self.grid_cols, grid_width, grid_height
+            )
+            logger.debug(f"Dynamic camera size: {new_cam_size}, window size: {grid_width}x{grid_height}")
+            return new_cam_size, (grid_width, grid_height)
+        except:
+            # Fallback to larger default sizes
+            default_width = 1920
+            default_height = 1080
+            new_cam_size = self._calculate_camera_size(
+                self.grid_rows, self.grid_cols, default_width, default_height
+            )
+            return new_cam_size, (default_width, default_height)
+
+def main():
+    """Main function"""
+    try:
+        viewer = RobustViewer()
+        return 0 if viewer.start() else 1
+    except KeyboardInterrupt:
+        logger.info("Interrupted by user")
+        return 0
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        import traceback
+        traceback.print_exc()
+        return 1
+
+if __name__ == "__main__":
+    sys.exit(main())

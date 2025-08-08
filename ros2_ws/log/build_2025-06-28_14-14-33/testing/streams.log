@@ -1,0 +1,59 @@
+[2.155s] Invoking command in '/home/chumbi/ros2_ws/src/testing': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/testing build --build-base /home/chumbi/ros2_ws/build/testing/build install --record /home/chumbi/ros2_ws/build/testing/install.log --single-version-externally-managed install_data
+[2.797s] running egg_info
+[2.798s] creating ../../build/testing/testing.egg-info
+[2.839s] writing ../../build/testing/testing.egg-info/PKG-INFO
+[2.839s] writing dependency_links to ../../build/testing/testing.egg-info/dependency_links.txt
+[2.839s] writing entry points to ../../build/testing/testing.egg-info/entry_points.txt
+[2.840s] writing requirements to ../../build/testing/testing.egg-info/requires.txt
+[2.840s] writing top-level names to ../../build/testing/testing.egg-info/top_level.txt
+[2.840s] writing manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+[2.924s] reading manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+[2.924s] adding license file 'LICENSE'
+[2.925s] writing manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+[2.925s] running build
+[2.926s] running build_py
+[2.926s] creating /home/chumbi/ros2_ws/build/testing/build
+[2.926s] creating /home/chumbi/ros2_ws/build/testing/build/lib
+[2.926s] creating /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[2.926s] copying testing/modelo.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[2.926s] copying testing/__init__.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[2.927s] copying testing/oak_d_s2_depth_node.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[2.927s] copying testing/test.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[2.927s] copying testing/camara.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[2.927s] running install
+[2.941s] running install_lib
+[2.990s] creating /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[2.990s] copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/modelo.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[2.990s] copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/__init__.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[2.991s] copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/oak_d_s2_depth_node.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[2.991s] copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/test.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[2.991s] copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/camara.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[2.991s] byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/modelo.py to modelo.cpython-312.pyc
+[2.998s] byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/__init__.py to __init__.cpython-312.pyc
+[2.998s] byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/oak_d_s2_depth_node.py to oak_d_s2_depth_node.cpython-312.pyc
+[3.003s] byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/test.py to test.cpython-312.pyc
+[3.004s] byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/camara.py to camara.cpython-312.pyc
+[3.005s] running install_data
+[3.005s] creating /home/chumbi/ros2_ws/install/testing/share/ament_index
+[3.005s] creating /home/chumbi/ros2_ws/install/testing/share/ament_index/resource_index
+[3.005s] creating /home/chumbi/ros2_ws/install/testing/share/ament_index/resource_index/packages
+[3.006s] copying resource/testing -> /home/chumbi/ros2_ws/install/testing/share/ament_index/resource_index/packages
+[3.006s] copying package.xml -> /home/chumbi/ros2_ws/install/testing/share/testing
+[3.006s] creating /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[3.006s] copying launch/oak_d_s2.launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[3.006s] copying launch/rtabmap_oak.launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[3.006s] copying launch/slam.launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[3.007s] copying launch/cartographer.launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[3.007s] creating /home/chumbi/ros2_ws/install/testing/share/testing/config
+[3.007s] copying config/lidar_2d.lua -> /home/chumbi/ros2_ws/install/testing/share/testing/config
+[3.007s] copying config/map_builder.lua -> /home/chumbi/ros2_ws/install/testing/share/testing/config
+[3.007s] copying config/slam_toolbox.yaml -> /home/chumbi/ros2_ws/install/testing/share/testing/config
+[3.007s] running install_egg_info
+[3.060s] Copying ../../build/testing/testing.egg-info to /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing-0.0.0-py3.12.egg-info
+[3.061s] running install_scripts
+[3.342s] Installing camara script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[3.342s] Installing modelo script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[3.342s] Installing oak_d_s2_depth_node script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[3.342s] Installing test script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[3.343s] writing list of installed files to '/home/chumbi/ros2_ws/build/testing/install.log'
+[3.412s] Invoked command in '/home/chumbi/ros2_ws/src/testing' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/testing build --build-base /home/chumbi/ros2_ws/build/testing/build install --record /home/chumbi/ros2_ws/build/testing/install.log --single-version-externally-managed install_data

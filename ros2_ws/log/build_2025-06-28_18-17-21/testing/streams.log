@@ -1,0 +1,35 @@
+[0.627s] Invoking command in '/home/chumbi/ros2_ws/build/testing': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/chumbi/ros2_ws/build/testing/build --no-deps symlink_data --force
+[0.873s] running develop
+[1.021s] running egg_info
+[1.036s] writing testing.egg-info/PKG-INFO
+[1.037s] writing dependency_links to testing.egg-info/dependency_links.txt
+[1.037s] writing entry points to testing.egg-info/entry_points.txt
+[1.037s] writing requirements to testing.egg-info/requires.txt
+[1.037s] writing top-level names to testing.egg-info/top_level.txt
+[1.067s] reading manifest file 'testing.egg-info/SOURCES.txt'
+[1.068s] writing manifest file 'testing.egg-info/SOURCES.txt'
+[1.083s] running build_ext
+[1.083s] Creating /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing.egg-link (link to .)
+[1.084s] Installing camara script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[1.084s] Installing modelo script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[1.084s] Installing oak_d_s2_depth_node script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[1.084s] Installing test script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[1.084s] 
+[1.084s] Installed /home/chumbi/ros2_ws/build/testing
+[1.084s] running symlink_data
+[1.085s] symbolically linking /home/chumbi/ros2_ws/build/testing/resource/testing -> /home/chumbi/ros2_ws/install/testing/share/ament_index/resource_index/packages
+[1.085s] symbolically linking /home/chumbi/ros2_ws/build/testing/package.xml -> /home/chumbi/ros2_ws/install/testing/share/testing
+[1.085s] symbolically linking /home/chumbi/ros2_ws/build/testing/launch/oak_d_s2.launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[1.085s] symbolically linking /home/chumbi/ros2_ws/build/testing/launch/rtabmap_oak.launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[1.085s] symbolically linking /home/chumbi/ros2_ws/build/testing/launch/lsc_slam_mapping.launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[1.086s] symbolically linking /home/chumbi/ros2_ws/build/testing/launch/robot_chassis_tf_launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[1.086s] symbolically linking /home/chumbi/ros2_ws/build/testing/launch/robot_with_lidar_launch.py -> /home/chumbi/ros2_ws/install/testing/share/testing/launch
+[1.086s] symbolically linking /home/chumbi/ros2_ws/build/testing/config/lidar_2d.lua -> /home/chumbi/ros2_ws/install/testing/share/testing/config
+[1.086s] symbolically linking /home/chumbi/ros2_ws/build/testing/config/map_builder.lua -> /home/chumbi/ros2_ws/install/testing/share/testing/config
+[1.086s] symbolically linking /home/chumbi/ros2_ws/build/testing/config/slam_toolbox.yaml -> /home/chumbi/ros2_ws/install/testing/share/testing/config
+[1.086s] symbolically linking /home/chumbi/ros2_ws/build/testing/config/rf2o_config.yaml -> /home/chumbi/ros2_ws/install/testing/share/testing/config
+[1.086s] symbolically linking /home/chumbi/ros2_ws/build/testing/config/tf_launch.xml -> /home/chumbi/ros2_ws/install/testing/share/testing/config
+[1.086s] symbolically linking /home/chumbi/ros2_ws/build/testing/urdf/robot_chassis.urdf -> /home/chumbi/ros2_ws/install/testing/share/testing/urdf
+[1.087s] symbolically linking /home/chumbi/ros2_ws/build/testing/urdf/robot_with_lsc_lidar.urdf.xacro -> /home/chumbi/ros2_ws/install/testing/share/testing/urdf
+[1.087s] symbolically linking /home/chumbi/ros2_ws/build/testing/rviz/slam_config.rviz -> /home/chumbi/ros2_ws/install/testing/share/testing/rviz
+[1.117s] Invoked command in '/home/chumbi/ros2_ws/build/testing' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/chumbi/ros2_ws/build/testing/build --no-deps symlink_data --force

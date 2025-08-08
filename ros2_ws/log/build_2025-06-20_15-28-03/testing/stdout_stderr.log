@@ -1,0 +1,27 @@
+running egg_info
+writing ../../build/testing/testing.egg-info/PKG-INFO
+writing dependency_links to ../../build/testing/testing.egg-info/dependency_links.txt
+writing entry points to ../../build/testing/testing.egg-info/entry_points.txt
+writing requirements to ../../build/testing/testing.egg-info/requires.txt
+writing top-level names to ../../build/testing/testing.egg-info/top_level.txt
+reading manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+running build
+running build_py
+copying testing/oak_d_s2_depth_node.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+copying testing/test.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+running install
+running install_lib
+copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/oak_d_s2_depth_node.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/test.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/oak_d_s2_depth_node.py to oak_d_s2_depth_node.cpython-312.pyc
+byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/test.py to test.cpython-312.pyc
+running install_data
+running install_egg_info
+removing '/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/testing/testing.egg-info to /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing-0.0.0-py3.12.egg-info
+running install_scripts
+Installing camara script to /home/chumbi/ros2_ws/install/testing/lib/testing
+Installing oak_d_s2_depth_node script to /home/chumbi/ros2_ws/install/testing/lib/testing
+writing list of installed files to '/home/chumbi/ros2_ws/build/testing/install.log'

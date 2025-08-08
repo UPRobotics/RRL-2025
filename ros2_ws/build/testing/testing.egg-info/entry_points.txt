@@ -1,0 +1,5 @@
+[console_scripts]
+camara = testing.camara:main
+modelo = testing.modelo:main
+oak_d_s2_depth_node = testing.oak_d_s2_depth_node:main
+test = testing.test:main

@@ -1,0 +1,38 @@
+[0.548s] Invoking command in '/home/chumbi/ros2_ws/src/testing': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/testing build --build-base /home/chumbi/ros2_ws/build/testing/build install --record /home/chumbi/ros2_ws/build/testing/install.log --single-version-externally-managed install_data
+[0.709s] running egg_info
+[0.709s] creating ../../build/testing/testing.egg-info
+[0.721s] writing ../../build/testing/testing.egg-info/PKG-INFO
+[0.721s] writing dependency_links to ../../build/testing/testing.egg-info/dependency_links.txt
+[0.721s] writing entry points to ../../build/testing/testing.egg-info/entry_points.txt
+[0.721s] writing requirements to ../../build/testing/testing.egg-info/requires.txt
+[0.721s] writing top-level names to ../../build/testing/testing.egg-info/top_level.txt
+[0.721s] writing manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+[0.746s] reading manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+[0.746s] adding license file 'LICENSE'
+[0.746s] writing manifest file '../../build/testing/testing.egg-info/SOURCES.txt'
+[0.747s] running build
+[0.747s] running build_py
+[0.747s] creating /home/chumbi/ros2_ws/build/testing/build
+[0.747s] creating /home/chumbi/ros2_ws/build/testing/build/lib
+[0.747s] creating /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[0.747s] copying testing/__init__.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[0.747s] copying testing/camara.py -> /home/chumbi/ros2_ws/build/testing/build/lib/testing
+[0.747s] running install
+[0.752s] running install_lib
+[0.763s] creating /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[0.763s] copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/__init__.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[0.763s] copying /home/chumbi/ros2_ws/build/testing/build/lib/testing/camara.py -> /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing
+[0.763s] byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/__init__.py to __init__.cpython-312.pyc
+[0.763s] byte-compiling /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing/camara.py to camara.cpython-312.pyc
+[0.764s] running install_data
+[0.764s] creating /home/chumbi/ros2_ws/install/testing/share/ament_index
+[0.764s] creating /home/chumbi/ros2_ws/install/testing/share/ament_index/resource_index
+[0.764s] creating /home/chumbi/ros2_ws/install/testing/share/ament_index/resource_index/packages
+[0.764s] copying resource/testing -> /home/chumbi/ros2_ws/install/testing/share/ament_index/resource_index/packages
+[0.764s] copying package.xml -> /home/chumbi/ros2_ws/install/testing/share/testing
+[0.764s] running install_egg_info
+[0.775s] Copying ../../build/testing/testing.egg-info to /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing-0.0.0-py3.12.egg-info
+[0.775s] running install_scripts
+[0.851s] Installing camara script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[0.851s] writing list of installed files to '/home/chumbi/ros2_ws/build/testing/install.log'
+[0.869s] Invoked command in '/home/chumbi/ros2_ws/src/testing' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/testing build --build-base /home/chumbi/ros2_ws/build/testing/build install --record /home/chumbi/ros2_ws/build/testing/install.log --single-version-externally-managed install_data

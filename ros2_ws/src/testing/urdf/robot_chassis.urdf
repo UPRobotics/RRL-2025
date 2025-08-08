@@ -1,0 +1,62 @@
+<!-- File: robot_chassis.urdf -->
+<robot name="simple_robot">
+    <!-- Base link for the robot chassis -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.2 0.1"/> <!-- 10 cm x 20 cm x 10 cm -->
+            </geometry>
+            <origin xyz="0 0 0.05"/> <!-- Center of the box (z=5 cm, half of height) -->
+            <material name="blue">
+                <color rgba="0 0 1 0.5"/> <!-- Blue, semi-transparent -->
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.2 0.1"/>
+            </geometry>
+            <origin xyz="0 0 0.05"/>
+        </collision>
+    </link>
+
+    <!-- LiDAR mount link (connected to base_link) -->
+    <!-- This will connect to the LSC driver's lsc_mount frame -->
+    <link name="lsc_mount">
+        <visual>
+            <geometry>
+                <cylinder radius="0.02" length="0.01"/> <!-- Small cylinder for mounting point -->
+            </geometry>
+            <origin xyz="0 0 0"/> 
+            <material name="black">
+                <color rgba="0 0 0 1"/> <!-- Black -->
+            </material>
+        </visual>
+    </link>
+
+    <!-- Joint to connect base_link to lsc_mount -->
+    <joint name="base_to_lsc_mount" type="fixed">
+        <parent link="base_link"/>
+        <child link="lsc_mount"/>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/> <!-- LiDAR mount on top of chassis -->
+    </joint>
+
+    <!-- Laser link (actual sensor frame) -->
+    <link name="laser">
+        <visual>
+            <geometry>
+                <cylinder radius="0.03" length="0.05"/> <!-- Small cylinder for LiDAR sensor -->
+            </geometry>
+            <origin xyz="0 0 0"/> 
+            <material name="red">
+                <color rgba="1 0 0 1"/> <!-- Red -->
+            </material>
+        </visual>
+    </link>
+
+    <!-- Joint to connect lsc_mount to laser -->
+    <joint name="lsc_mount_to_laser" type="fixed">
+        <parent link="lsc_mount"/>
+        <child link="laser"/>
+        <origin xyz="0 0 0.0546" rpy="0 0 0"/> <!-- LSC driver offset (5.46 cm) -->
+    </joint>
+</robot>

@@ -1,0 +1,247 @@
+[0.000000] (-) TimerEvent: {}
+[0.000539] (lsc_ros2_driver) JobQueued: {'identifier': 'lsc_ros2_driver', 'dependencies': OrderedDict()}
+[0.000590] (testing) JobQueued: {'identifier': 'testing', 'dependencies': OrderedDict()}
+[0.001482] (lsc_ros2_driver) JobStarted: {'identifier': 'lsc_ros2_driver'}
+[0.013635] (testing) JobStarted: {'identifier': 'testing'}
+[0.026473] (lsc_ros2_driver) JobProgress: {'identifier': 'lsc_ros2_driver', 'progress': 'cmake'}
+[0.027116] (lsc_ros2_driver) Command: {'cmd': ['/usr/bin/cmake', '/home/chumbi/ros2_ws/src/lsc_ros2_driver', '-DCMAKE_INSTALL_PREFIX=/home/chumbi/ros2_ws/install/lsc_ros2_driver'], 'cwd': '/home/chumbi/ros2_ws/build/lsc_ros2_driver', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'chumbi', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'wayland', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/chumbi', 'OLDPWD': '/home/chumbi/ros2_ws/src', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'SYSTEMD_EXEC_PID': '2210', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'chumbi', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'chumbi', 'TERM': 'xterm-256color', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/chumbi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/chumbi-Aspire:@/tmp/.ICE-unix/2140,unix/chumbi-Aspire:/tmp/.ICE-unix/2140', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/af5e5b3e_5d86_4465_a733_4b4c724aecd7', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.8PV782', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.202', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '10', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/chumbi/ros2_ws/build/lsc_ros2_driver', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[0.099994] (-) TimerEvent: {}
+[0.155429] (lsc_ros2_driver) StdoutLine: {'line': b'-- The C compiler identification is GNU 13.3.0\n'}
+[0.200133] (-) TimerEvent: {}
+[0.287365] (lsc_ros2_driver) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 13.3.0\n'}
+[0.300267] (-) TimerEvent: {}
+[0.320798] (lsc_ros2_driver) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.400513] (-) TimerEvent: {}
+[0.479099] (lsc_ros2_driver) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.495135] (lsc_ros2_driver) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.496056] (lsc_ros2_driver) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.497128] (lsc_ros2_driver) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.500900] (-) TimerEvent: {}
+[0.518659] (lsc_ros2_driver) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.601064] (-) TimerEvent: {}
+[0.691842] (lsc_ros2_driver) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.701260] (-) TimerEvent: {}
+[0.708741] (lsc_ros2_driver) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.709219] (lsc_ros2_driver) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.710095] (lsc_ros2_driver) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.721838] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)\n'}
+[0.801456] (-) TimerEvent: {}
+[0.901843] (-) TimerEvent: {}
+[0.995633] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter \n'}
+[1.001953] (-) TimerEvent: {}
+[1.102368] (-) TimerEvent: {}
+[1.202746] (-) TimerEvent: {}
+[1.239164] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found rclcpp: 28.1.9 (/opt/ros/jazzy/share/rclcpp/cmake)\n'}
+[1.302878] (-) TimerEvent: {}
+[1.348951] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)\n'}
+[1.382729] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)\n'}
+[1.403050] (-) TimerEvent: {}
+[1.428262] (lsc_ros2_driver) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.475457] (lsc_ros2_driver) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.503263] (-) TimerEvent: {}
+[1.577704] (testing) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/testing', 'build', '--build-base', '/home/chumbi/ros2_ws/build/testing/build', 'install', '--record', '/home/chumbi/ros2_ws/build/testing/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/chumbi/ros2_ws/src/testing', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'chumbi', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'wayland', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/chumbi', 'OLDPWD': '/home/chumbi/ros2_ws/src', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'SYSTEMD_EXEC_PID': '2210', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'chumbi', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'chumbi', 'TERM': 'xterm-256color', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/chumbi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/chumbi-Aspire:@/tmp/.ICE-unix/2140,unix/chumbi-Aspire:/tmp/.ICE-unix/2140', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/af5e5b3e_5d86_4465_a733_4b4c724aecd7', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.8PV782', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.202', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '10', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/chumbi/ros2_ws/build/testing', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[1.603468] (-) TimerEvent: {}
+[1.676428] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)\n'}
+[1.686074] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 8.4.2 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)\n'}
+[1.703601] (-) TimerEvent: {}
+[1.804012] (-) TimerEvent: {}
+[1.870551] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  \n'}
+[1.904148] (-) TimerEvent: {}
+[1.909037] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") \n'}
+[1.957377] (lsc_ros2_driver) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[2.004364] (-) TimerEvent: {}
+[2.054869] (testing) StdoutLine: {'line': b'running egg_info\n'}
+[2.087471] (testing) StdoutLine: {'line': b'writing ../../build/testing/testing.egg-info/PKG-INFO\n'}
+[2.088096] (testing) StdoutLine: {'line': b'writing dependency_links to ../../build/testing/testing.egg-info/dependency_links.txt\n'}
+[2.088287] (testing) StdoutLine: {'line': b'writing entry points to ../../build/testing/testing.egg-info/entry_points.txt\n'}
+[2.088454] (testing) StdoutLine: {'line': b'writing requirements to ../../build/testing/testing.egg-info/requires.txt\n'}
+[2.088562] (testing) StdoutLine: {'line': b'writing top-level names to ../../build/testing/testing.egg-info/top_level.txt\n'}
+[2.104578] (-) TimerEvent: {}
+[2.138075] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found sensor_msgs: 5.3.6 (/opt/ros/jazzy/share/sensor_msgs/cmake)\n'}
+[2.159936] (testing) StdoutLine: {'line': b"reading manifest file '../../build/testing/testing.egg-info/SOURCES.txt'\n"}
+[2.160527] (testing) StdoutLine: {'line': b"adding license file 'LICENSE'\n"}
+[2.161555] (testing) StdoutLine: {'line': b"writing manifest file '../../build/testing/testing.egg-info/SOURCES.txt'\n"}
+[2.161824] (testing) StdoutLine: {'line': b'running build\n'}
+[2.161923] (testing) StdoutLine: {'line': b'running build_py\n'}
+[2.163273] (testing) StdoutLine: {'line': b'running install\n'}
+[2.173869] (testing) StdoutLine: {'line': b'running install_lib\n'}
+[2.204728] (-) TimerEvent: {}
+[2.208041] (testing) StdoutLine: {'line': b'running install_data\n'}
+[2.208554] (testing) StdoutLine: {'line': b'running install_egg_info\n'}
+[2.245480] (testing) StdoutLine: {'line': b"removing '/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[2.246334] (testing) StdoutLine: {'line': b'Copying ../../build/testing/testing.egg-info to /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing-0.0.0-py3.12.egg-info\n'}
+[2.247514] (testing) StdoutLine: {'line': b'running install_scripts\n'}
+[2.280226] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found diagnostic_updater: 4.2.4 (/opt/ros/jazzy/share/diagnostic_updater/cmake)\n'}
+[2.304957] (-) TimerEvent: {}
+[2.352213] (lsc_ros2_driver) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.17.2 (/opt/ros/jazzy/share/ament_lint_auto/cmake)\n'}
+[2.405087] (-) TimerEvent: {}
+[2.473034] (testing) StdoutLine: {'line': b'Installing camara script to /home/chumbi/ros2_ws/install/testing/lib/testing\n'}
+[2.474100] (testing) StdoutLine: {'line': b'Installing modelo script to /home/chumbi/ros2_ws/install/testing/lib/testing\n'}
+[2.474437] (testing) StdoutLine: {'line': b'Installing oak_d_s2_depth_node script to /home/chumbi/ros2_ws/install/testing/lib/testing\n'}
+[2.474706] (testing) StdoutLine: {'line': b'Installing test script to /home/chumbi/ros2_ws/install/testing/lib/testing\n'}
+[2.474943] (testing) StdoutLine: {'line': b"writing list of installed files to '/home/chumbi/ros2_ws/build/testing/install.log'\n"}
+[2.505245] (-) TimerEvent: {}
+[2.531823] (testing) CommandEnded: {'returncode': 0}
+[2.555407] (testing) JobEnded: {'identifier': 'testing', 'rc': 0}
+[2.592889] (lsc_ros2_driver) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[2.597847] (lsc_ros2_driver) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[2.598230] (lsc_ros2_driver) StdoutLine: {'line': b'-- Configured cppcheck include dirs: /home/chumbi/ros2_ws/src/lsc_ros2_driver/include/lsc_ros2_driver\n'}
+[2.598431] (lsc_ros2_driver) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[2.602551] (lsc_ros2_driver) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[2.602883] (lsc_ros2_driver) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[2.604282] (lsc_ros2_driver) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[2.604537] (lsc_ros2_driver) StdoutLine: {'line': b"-- Configured 'flake8' exclude dirs and/or files: \n"}
+[2.605309] (-) TimerEvent: {}
+[2.606420] (lsc_ros2_driver) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[2.608164] (lsc_ros2_driver) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[2.613133] (lsc_ros2_driver) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[2.613479] (lsc_ros2_driver) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[2.615663] (lsc_ros2_driver) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[2.620024] (lsc_ros2_driver) StdoutLine: {'line': b'-- Configuring done (2.6s)\n'}
+[2.642098] (lsc_ros2_driver) StdoutLine: {'line': b'-- Generating done (0.0s)\n'}
+[2.648279] (lsc_ros2_driver) StdoutLine: {'line': b'-- Build files have been written to: /home/chumbi/ros2_ws/build/lsc_ros2_driver\n'}
+[2.664711] (lsc_ros2_driver) CommandEnded: {'returncode': 0}
+[2.666466] (lsc_ros2_driver) JobProgress: {'identifier': 'lsc_ros2_driver', 'progress': 'build'}
+[2.666569] (lsc_ros2_driver) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/chumbi/ros2_ws/build/lsc_ros2_driver', '--', '-j12', '-l12'], 'cwd': '/home/chumbi/ros2_ws/build/lsc_ros2_driver', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'chumbi', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'wayland', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/chumbi', 'OLDPWD': '/home/chumbi/ros2_ws/src', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'SYSTEMD_EXEC_PID': '2210', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'chumbi', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'chumbi', 'TERM': 'xterm-256color', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/chumbi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/chumbi-Aspire:@/tmp/.ICE-unix/2140,unix/chumbi-Aspire:/tmp/.ICE-unix/2140', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/af5e5b3e_5d86_4465_a733_4b4c724aecd7', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.8PV782', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.202', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '10', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/chumbi/ros2_ws/build/lsc_ros2_driver', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[2.705534] (-) TimerEvent: {}
+[2.752192] (lsc_ros2_driver) StdoutLine: {'line': b'[ 60%] \x1b[32mBuilding CXX object CMakeFiles/autonics_lsc_lidar.dir/src/parser.cpp.o\x1b[0m\n'}
+[2.752637] (lsc_ros2_driver) StdoutLine: {'line': b'[ 60%] \x1b[32mBuilding CXX object CMakeFiles/autonics_lsc_lidar.dir/src/autolidar.cpp.o\x1b[0m\n'}
+[2.752913] (lsc_ros2_driver) StdoutLine: {'line': b'[ 60%] \x1b[32mBuilding CXX object CMakeFiles/autonics_lsc_lidar.dir/src/lsc_ros2_driver.cpp.o\x1b[0m\n'}
+[2.755328] (lsc_ros2_driver) StdoutLine: {'line': b'[ 80%] \x1b[32mBuilding CXX object CMakeFiles/autonics_lsc_lidar.dir/src/socket.cpp.o\x1b[0m\n'}
+[2.805746] (-) TimerEvent: {}
+[2.906223] (-) TimerEvent: {}
+[3.006783] (-) TimerEvent: {}
+[3.107259] (-) TimerEvent: {}
+[3.207800] (-) TimerEvent: {}
+[3.308305] (-) TimerEvent: {}
+[3.408849] (-) TimerEvent: {}
+[3.509395] (-) TimerEvent: {}
+[3.538583] (lsc_ros2_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/chumbi/ros2_ws/src/lsc_ros2_driver/src/parser.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvirtual int AsciiParser::\x1b[01;32m\x1b[KparsingMsg\x1b[m\x1b[K(std::vector<unsigned char>, std::shared_ptr<Lsc_t>)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[3.539131] (lsc_ros2_driver) StderrLine: {'line': b'\x1b[01m\x1b[K/home/chumbi/ros2_ws/src/lsc_ros2_driver/src/parser.cpp:245:38:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison of integer expressions of different signedness: \xe2\x80\x98\x1b[01m\x1b[Kint\x1b[m\x1b[K\xe2\x80\x99 and \xe2\x80\x98\x1b[01m\x1b[Kstd::vector<char*>::size_type\x1b[m\x1b[K\xe2\x80\x99 {aka \xe2\x80\x98\x1b[01m\x1b[Klong unsigned int\x1b[m\x1b[K\xe2\x80\x99} [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare\x07-Wsign-compare\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[3.539377] (lsc_ros2_driver) StderrLine: {'line': b'  245 |                     for(int i = 0; \x1b[01;35m\x1b[Ki < field.size()\x1b[m\x1b[K; i++)\n'}
+[3.539583] (lsc_ros2_driver) StderrLine: {'line': b'      |                                    \x1b[01;35m\x1b[K~~^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[3.609567] (-) TimerEvent: {}
+[3.710148] (-) TimerEvent: {}
+[3.810736] (-) TimerEvent: {}
+[3.911255] (-) TimerEvent: {}
+[4.011818] (-) TimerEvent: {}
+[4.112318] (-) TimerEvent: {}
+[4.212770] (-) TimerEvent: {}
+[4.313171] (-) TimerEvent: {}
+[4.413621] (-) TimerEvent: {}
+[4.514249] (-) TimerEvent: {}
+[4.614746] (-) TimerEvent: {}
+[4.715132] (-) TimerEvent: {}
+[4.815689] (-) TimerEvent: {}
+[4.916079] (-) TimerEvent: {}
+[5.016569] (-) TimerEvent: {}
+[5.117066] (-) TimerEvent: {}
+[5.217571] (-) TimerEvent: {}
+[5.317976] (-) TimerEvent: {}
+[5.418441] (-) TimerEvent: {}
+[5.518887] (-) TimerEvent: {}
+[5.619311] (-) TimerEvent: {}
+[5.719892] (-) TimerEvent: {}
+[5.820304] (-) TimerEvent: {}
+[5.920711] (-) TimerEvent: {}
+[6.021113] (-) TimerEvent: {}
+[6.121606] (-) TimerEvent: {}
+[6.222093] (-) TimerEvent: {}
+[6.322696] (-) TimerEvent: {}
+[6.423126] (-) TimerEvent: {}
+[6.523607] (-) TimerEvent: {}
+[6.624023] (-) TimerEvent: {}
+[6.724430] (-) TimerEvent: {}
+[6.824767] (-) TimerEvent: {}
+[6.925247] (-) TimerEvent: {}
+[7.025750] (-) TimerEvent: {}
+[7.126119] (-) TimerEvent: {}
+[7.226637] (-) TimerEvent: {}
+[7.327069] (-) TimerEvent: {}
+[7.427503] (-) TimerEvent: {}
+[7.527918] (-) TimerEvent: {}
+[7.628426] (-) TimerEvent: {}
+[7.728890] (-) TimerEvent: {}
+[7.829400] (-) TimerEvent: {}
+[7.929844] (-) TimerEvent: {}
+[8.030250] (-) TimerEvent: {}
+[8.130712] (-) TimerEvent: {}
+[8.231133] (-) TimerEvent: {}
+[8.331505] (-) TimerEvent: {}
+[8.431921] (-) TimerEvent: {}
+[8.532283] (-) TimerEvent: {}
+[8.632797] (-) TimerEvent: {}
+[8.733249] (-) TimerEvent: {}
+[8.833730] (-) TimerEvent: {}
+[8.934098] (-) TimerEvent: {}
+[9.034465] (-) TimerEvent: {}
+[9.134835] (-) TimerEvent: {}
+[9.235242] (-) TimerEvent: {}
+[9.335677] (-) TimerEvent: {}
+[9.436163] (-) TimerEvent: {}
+[9.536596] (-) TimerEvent: {}
+[9.636985] (-) TimerEvent: {}
+[9.737403] (-) TimerEvent: {}
+[9.837849] (-) TimerEvent: {}
+[9.938295] (-) TimerEvent: {}
+[10.038771] (-) TimerEvent: {}
+[10.139202] (-) TimerEvent: {}
+[10.239711] (-) TimerEvent: {}
+[10.340189] (-) TimerEvent: {}
+[10.440729] (-) TimerEvent: {}
+[10.541097] (-) TimerEvent: {}
+[10.641507] (-) TimerEvent: {}
+[10.741919] (-) TimerEvent: {}
+[10.842290] (-) TimerEvent: {}
+[10.942681] (-) TimerEvent: {}
+[11.043070] (-) TimerEvent: {}
+[11.143493] (-) TimerEvent: {}
+[11.243838] (-) TimerEvent: {}
+[11.344231] (-) TimerEvent: {}
+[11.444626] (-) TimerEvent: {}
+[11.545027] (-) TimerEvent: {}
+[11.645397] (-) TimerEvent: {}
+[11.745812] (-) TimerEvent: {}
+[11.846218] (-) TimerEvent: {}
+[11.946720] (-) TimerEvent: {}
+[12.047130] (-) TimerEvent: {}
+[12.061448] (lsc_ros2_driver) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable autonics_lsc_lidar\x1b[0m\n'}
+[12.147303] (-) TimerEvent: {}
+[12.247849] (-) TimerEvent: {}
+[12.348289] (-) TimerEvent: {}
+[12.448756] (-) TimerEvent: {}
+[12.461519] (lsc_ros2_driver) StdoutLine: {'line': b'[100%] Built target autonics_lsc_lidar\n'}
+[12.481272] (lsc_ros2_driver) CommandEnded: {'returncode': 0}
+[12.482321] (lsc_ros2_driver) JobProgress: {'identifier': 'lsc_ros2_driver', 'progress': 'install'}
+[12.496304] (lsc_ros2_driver) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/chumbi/ros2_ws/build/lsc_ros2_driver'], 'cwd': '/home/chumbi/ros2_ws/build/lsc_ros2_driver', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'chumbi', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'wayland', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/chumbi', 'OLDPWD': '/home/chumbi/ros2_ws/src', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'SYSTEMD_EXEC_PID': '2210', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'chumbi', 'IGN_GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'chumbi', 'TERM': 'xterm-256color', 'GAZEBO_MODEL_PATH': '/opt/ros/jazzy/share', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/chumbi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/chumbi-Aspire:@/tmp/.ICE-unix/2140,unix/chumbi-Aspire:/tmp/.ICE-unix/2140', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/af5e5b3e_5d86_4465_a733_4b4c724aecd7', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.8PV782', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.202', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '10', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'IGN_GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'GAZEBO_RESOURCE_PATH': '/opt/ros/jazzy/share', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/chumbi/ros2_ws/build/lsc_ros2_driver', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[12.509521] (lsc_ros2_driver) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[12.509806] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/lib/lsc_ros2_driver/autonics_lsc_lidar\n'}
+[12.511871] (lsc_ros2_driver) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/chumbi/ros2_ws/install/lsc_ros2_driver/lib/lsc_ros2_driver/autonics_lsc_lidar" to ""\n'}
+[12.512346] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/launch\n'}
+[12.512520] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/launch/lsc_ros2_driver_launch.py\n'}
+[12.512693] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/launch/__pycache__\n'}
+[12.512857] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/launch/__pycache__/lsc_ros2_driver_launch_ipchange.cpython-38.pyc\n'}
+[12.513010] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/rviz\n'}
+[12.513158] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/rviz/lsc_ros2_driver.rviz\n'}
+[12.513330] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/urdf\n'}
+[12.513478] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/urdf/lsc-c25ct3-bet.stl\n'}
+[12.514375] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/urdf/lsc_ros2_driver.urdf.xacro\n'}
+[12.514620] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/urdf/lsc-c25ct3-bet.dae\n'}
+[12.517351] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/ament_index/resource_index/package_run_dependencies/lsc_ros2_driver\n'}
+[12.517648] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/ament_index/resource_index/parent_prefix_path/lsc_ros2_driver\n'}
+[12.517865] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/environment/ament_prefix_path.sh\n'}
+[12.518130] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/environment/ament_prefix_path.dsv\n'}
+[12.518326] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/environment/path.sh\n'}
+[12.518507] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/environment/path.dsv\n'}
+[12.518717] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/local_setup.bash\n'}
+[12.519064] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/local_setup.sh\n'}
+[12.519202] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/local_setup.zsh\n'}
+[12.519287] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/local_setup.dsv\n'}
+[12.519364] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/package.dsv\n'}
+[12.519445] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/ament_index/resource_index/packages/lsc_ros2_driver\n'}
+[12.519526] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/cmake/lsc_ros2_driverConfig.cmake\n'}
+[12.519605] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/cmake/lsc_ros2_driverConfig-version.cmake\n'}
+[12.519700] (lsc_ros2_driver) StdoutLine: {'line': b'-- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/package.xml\n'}
+[12.521494] (lsc_ros2_driver) CommandEnded: {'returncode': 0}
+[12.536711] (lsc_ros2_driver) JobEnded: {'identifier': 'lsc_ros2_driver', 'rc': 0}
+[12.538136] (-) EventReactorShutdown: {}

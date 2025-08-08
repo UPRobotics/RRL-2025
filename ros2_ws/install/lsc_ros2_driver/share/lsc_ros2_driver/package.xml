@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>lsc_ros2_driver</name>
+  <version>1.0.2</version>
+  <description>ROS2 driver package for Autonics LSC Series</description>
+  <author email="lidar-ros@autonics.com">Autonics-lidar</author>
+  <maintainer email="lidar-ros@autonics.com">Autonics-lidar</maintainer>
+  <license>BSD</license>
+  <url type="repository">https://github.com/AutonicsLiDAR/lsc_ros2_driver</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>diagnostic_updater</depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

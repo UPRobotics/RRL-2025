@@ -1,0 +1,11 @@
+opencv-python
+numpy
+ffmpeg-python
+pyzbar
+pillow
+pyaudio
+openai-whisper
+torch
+transformers
+speechrecognition
+# configparser is built into Python 3.2+

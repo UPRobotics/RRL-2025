@@ -1,0 +1,21 @@
+[0.632s] Invoking command in '/home/chumbi/ros2_ws/build/testing': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/chumbi/ros2_ws/build/testing/build --no-deps symlink_data
+[0.890s] running develop
+[1.043s] running egg_info
+[1.057s] writing testing.egg-info/PKG-INFO
+[1.058s] writing dependency_links to testing.egg-info/dependency_links.txt
+[1.058s] writing entry points to testing.egg-info/entry_points.txt
+[1.058s] writing requirements to testing.egg-info/requires.txt
+[1.058s] writing top-level names to testing.egg-info/top_level.txt
+[1.088s] reading manifest file 'testing.egg-info/SOURCES.txt'
+[1.088s] writing manifest file 'testing.egg-info/SOURCES.txt'
+[1.105s] running build_ext
+[1.105s] Creating /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing.egg-link (link to .)
+[1.105s] Installing camara script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[1.105s] Installing modelo script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[1.105s] Installing oak_d_s2_depth_node script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[1.105s] Installing test script to /home/chumbi/ros2_ws/install/testing/lib/testing
+[1.105s] 
+[1.106s] Installed /home/chumbi/ros2_ws/build/testing
+[1.106s] running symlink_data
+[1.106s] error: can't copy '/home/chumbi/ros2_ws/build/testing/launch/slam_launch.py': doesn't exist or not a regular file
+[1.137s] Invoked command in '/home/chumbi/ros2_ws/build/testing' returned '1': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/chumbi/ros2_ws/build/testing/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/chumbi/ros2_ws/build/testing/build --no-deps symlink_data

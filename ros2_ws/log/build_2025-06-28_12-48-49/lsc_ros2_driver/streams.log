@@ -1,0 +1,87 @@
+[0.027s] Invoking command in '/home/chumbi/ros2_ws/build/lsc_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/chumbi/ros2_ws/src/lsc_ros2_driver -DCMAKE_INSTALL_PREFIX=/home/chumbi/ros2_ws/install/lsc_ros2_driver
+[0.154s] -- The C compiler identification is GNU 13.3.0
+[0.286s] -- The CXX compiler identification is GNU 13.3.0
+[0.320s] -- Detecting C compiler ABI info
+[0.478s] -- Detecting C compiler ABI info - done
+[0.494s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.495s] -- Detecting C compile features
+[0.496s] -- Detecting C compile features - done
+[0.517s] -- Detecting CXX compiler ABI info
+[0.691s] -- Detecting CXX compiler ABI info - done
+[0.707s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.708s] -- Detecting CXX compile features
+[0.709s] -- Detecting CXX compile features - done
+[0.721s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.994s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[1.238s] -- Found rclcpp: 28.1.9 (/opt/ros/jazzy/share/rclcpp/cmake)
+[1.348s] -- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[1.381s] -- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[1.427s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.474s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.675s] -- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[1.685s] -- Found rmw_fastrtps_cpp: 8.4.2 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[1.869s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[1.908s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") 
+[1.956s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[2.137s] -- Found sensor_msgs: 5.3.6 (/opt/ros/jazzy/share/sensor_msgs/cmake)
+[2.279s] -- Found diagnostic_updater: 4.2.4 (/opt/ros/jazzy/share/diagnostic_updater/cmake)
+[2.351s] -- Found ament_lint_auto: 0.17.2 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[2.592s] -- Added test 'copyright' to check source files copyright and LICENSE
+[2.597s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.597s] -- Configured cppcheck include dirs: /home/chumbi/ros2_ws/src/lsc_ros2_driver/include/lsc_ros2_driver
+[2.597s] -- Configured cppcheck exclude dirs and/or files: 
+[2.601s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[2.602s] -- Configured cpplint exclude dirs and/or files: 
+[2.603s] -- Added test 'flake8' to check Python code syntax and style conventions
+[2.603s] -- Configured 'flake8' exclude dirs and/or files: 
+[2.605s] -- Added test 'lint_cmake' to check CMake code style
+[2.607s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[2.612s] -- Added test 'uncrustify' to check C / C++ code style
+[2.612s] -- Configured uncrustify additional arguments: 
+[2.615s] -- Added test 'xmllint' to check XML markup files
+[2.619s] -- Configuring done (2.6s)
+[2.641s] -- Generating done (0.0s)
+[2.647s] -- Build files have been written to: /home/chumbi/ros2_ws/build/lsc_ros2_driver
+[2.665s] Invoked command in '/home/chumbi/ros2_ws/build/lsc_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/chumbi/ros2_ws/src/lsc_ros2_driver -DCMAKE_INSTALL_PREFIX=/home/chumbi/ros2_ws/install/lsc_ros2_driver
+[2.666s] Invoking command in '/home/chumbi/ros2_ws/build/lsc_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/chumbi/ros2_ws/build/lsc_ros2_driver -- -j12 -l12
+[2.751s] [ 60%] [32mBuilding CXX object CMakeFiles/autonics_lsc_lidar.dir/src/parser.cpp.o[0m
+[2.751s] [ 60%] [32mBuilding CXX object CMakeFiles/autonics_lsc_lidar.dir/src/autolidar.cpp.o[0m
+[2.752s] [ 60%] [32mBuilding CXX object CMakeFiles/autonics_lsc_lidar.dir/src/lsc_ros2_driver.cpp.o[0m
+[2.754s] [ 80%] [32mBuilding CXX object CMakeFiles/autonics_lsc_lidar.dir/src/socket.cpp.o[0m
+[3.538s] [01m[K/home/chumbi/ros2_ws/src/lsc_ros2_driver/src/parser.cpp:[m[K In member function ‘[01m[Kvirtual int AsciiParser::[01;32m[KparsingMsg[m[K(std::vector<unsigned char>, std::shared_ptr<Lsc_t>)[m[K’:
+[3.538s] [01m[K/home/chumbi/ros2_ws/src/lsc_ros2_driver/src/parser.cpp:245:38:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::vector<char*>::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+[3.538s]   245 |                     for(int i = 0; [01;35m[Ki < field.size()[m[K; i++)
+[3.538s]       |                                    [01;35m[K~~^~~~~~~~~~~~~~[m[K
+[12.060s] [100%] [32m[1mLinking CXX executable autonics_lsc_lidar[0m
+[12.460s] [100%] Built target autonics_lsc_lidar
+[12.480s] Invoked command in '/home/chumbi/ros2_ws/build/lsc_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/chumbi/ros2_ws/build/lsc_ros2_driver -- -j12 -l12
+[12.495s] Invoking command in '/home/chumbi/ros2_ws/build/lsc_ros2_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/chumbi/ros2_ws/build/lsc_ros2_driver
+[12.508s] -- Install configuration: ""
+[12.508s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/lib/lsc_ros2_driver/autonics_lsc_lidar
+[12.511s] -- Set non-toolchain portion of runtime path of "/home/chumbi/ros2_ws/install/lsc_ros2_driver/lib/lsc_ros2_driver/autonics_lsc_lidar" to ""
+[12.511s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/launch
+[12.511s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/launch/lsc_ros2_driver_launch.py
+[12.511s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/launch/__pycache__
+[12.511s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/launch/__pycache__/lsc_ros2_driver_launch_ipchange.cpython-38.pyc
+[12.512s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/rviz
+[12.512s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/rviz/lsc_ros2_driver.rviz
+[12.512s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/urdf
+[12.512s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/urdf/lsc-c25ct3-bet.stl
+[12.513s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/urdf/lsc_ros2_driver.urdf.xacro
+[12.513s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/urdf/lsc-c25ct3-bet.dae
+[12.516s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/ament_index/resource_index/package_run_dependencies/lsc_ros2_driver
+[12.516s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/ament_index/resource_index/parent_prefix_path/lsc_ros2_driver
+[12.517s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/environment/ament_prefix_path.sh
+[12.517s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/environment/ament_prefix_path.dsv
+[12.517s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/environment/path.sh
+[12.517s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/environment/path.dsv
+[12.517s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/local_setup.bash
+[12.518s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/local_setup.sh
+[12.518s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/local_setup.zsh
+[12.518s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/local_setup.dsv
+[12.518s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/package.dsv
+[12.518s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/ament_index/resource_index/packages/lsc_ros2_driver
+[12.518s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/cmake/lsc_ros2_driverConfig.cmake
+[12.518s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/cmake/lsc_ros2_driverConfig-version.cmake
+[12.518s] -- Installing: /home/chumbi/ros2_ws/install/lsc_ros2_driver/share/lsc_ros2_driver/package.xml
+[12.520s] Invoked command in '/home/chumbi/ros2_ws/build/lsc_ros2_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/chumbi/ros2_ws/build/lsc_ros2_driver

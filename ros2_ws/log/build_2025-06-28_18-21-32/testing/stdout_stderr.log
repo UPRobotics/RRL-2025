@@ -1,0 +1,18 @@
+running develop
+running egg_info
+writing testing.egg-info/PKG-INFO
+writing dependency_links to testing.egg-info/dependency_links.txt
+writing entry points to testing.egg-info/entry_points.txt
+writing requirements to testing.egg-info/requires.txt
+writing top-level names to testing.egg-info/top_level.txt
+reading manifest file 'testing.egg-info/SOURCES.txt'
+writing manifest file 'testing.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/chumbi/ros2_ws/install/testing/lib/python3.12/site-packages/testing.egg-link (link to .)
+Installing camara script to /home/chumbi/ros2_ws/install/testing/lib/testing
+Installing modelo script to /home/chumbi/ros2_ws/install/testing/lib/testing
+Installing oak_d_s2_depth_node script to /home/chumbi/ros2_ws/install/testing/lib/testing
+Installing test script to /home/chumbi/ros2_ws/install/testing/lib/testing
+
+Installed /home/chumbi/ros2_ws/build/testing
+running symlink_data
